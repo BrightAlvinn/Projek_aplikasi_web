@@ -17,7 +17,7 @@
 
 **CATATUANG** adalah aplikasi pencatatan keuangan pribadi (*personal finance tracker*) berbasis web. Dirancang dengan antarmuka yang bersih, intuitif, dan responsif untuk membantu pengguna mengontrol arus kas masuk dan keluar secara rapi dan disiplin demi mencapai tujuan finansial yang sehat.
 
-## Main Fiture
+## Main Feature
 
 - 💸 **Pencatatan Pemasukan & Pengeluaran:** Catat setiap transaksi harian dengan cepat dan kategorisasi yang jelas.
 - 📊 **Laporan & Ringkasan Keuangan:** Pantau saldo bersih, total pengeluaran, dan pemasukan dalam periode tertentu.
@@ -26,7 +26,7 @@
 - 🔐 **Autentikasi Aman:** Sistem akun untuk memastikan privasi data keuangan masing-masing pengguna.
 - 📱 **Desain Responsif:** Tampilan optimal baik diakses melalui smartphone, tablet, maupun komputer.
 
-## Technology at CATATUANG
+## Technology used CATATUANG
 
 - **Backend:** [Laravel](https://laravel.com/) (PHP Framework)
 - **Frontend:** Blade Templating, [Tailwind CSS](https://tailwindcss.com/), JavaScript
@@ -50,11 +50,15 @@ Pastikan komputer Anda sudah terinstal:
 
 ## 👤 Team Developer
 
-- • Muhammad Rifqi Destama (UI/UX Designer & Prototype Specialist) Prototype, layout, pengalaman pengguna, Database configuration, dan rancangan antarmuka.
-- • Raushanfikri Abdillah	(Product Concept & User Flow Designer) Ide produk, kebutuhan fitur, struktur navigasi, dan alur pengguna.
-- • Dhiyan Sigit Dzaqita (Visual Design & Design System Specialist) Palet warna, identitas visual, design token, dan konsistensi tampilan.
-- • Bright Alvindra Pradipta (Lead Developer & Repository Administrator) Inisialisasi Laravel, integrasi teknis, GitHub, dan workflow development.
-- • Arifan Ismail ( 0 ).
+-  Muhammad Rifqi Destama (UI/UX Designer & Prototype Specialist) Prototype, layout, pengalaman pengguna, Database configuration, dan rancangan antarmuka.
+
+-  Raushanfikri Abdillah	(Product Concept & User Flow Designer) Ide produk, kebutuhan fitur, struktur navigasi, dan alur pengguna.
+
+-  Dhiyan Sigit Dzaqita (Visual Design & Design System Specialist) Palet warna, identitas visual, design token, dan konsistensi tampilan.
+
+-  Bright Alvindra Pradipta (Lead Developer & Repository Administrator) Inisialisasi Laravel, integrasi teknis, GitHub, dan workflow development.
+
+-  Arifan Ismail ( 0 ).
 
 ## Security Vulnerabilities
 
