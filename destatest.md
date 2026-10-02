@@ -12,4 +12,4 @@ Catatan Perubahan (Changelog)
 
 Versi 1.0: Pembuatan file dummy awal.
 
-"Ini adalah teks kutipan percobaan untuk memastikan format Markdown dirender dengan baik setelah di-pull."
+"Ini adalah teks kutipan percobaan untuk memastikan format Markdown dirender dengan baik setelah di-pull." 

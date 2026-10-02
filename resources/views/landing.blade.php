@@ -456,7 +456,7 @@
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Masukkan kredensial Anda untuk melanjutkan ke dashboard CatatUang.</p>
                 </div>
 
-                <form action="{{ Route::has('login') ? route('login') : '#' }}" method="POST" class="space-y-4">
+                <form action="{{ Route::has('login.post') ? route('login.post') : '#' }}" method="POST" class="space-y-4">
                     @csrf
                     <div>
                         <label for="login-email" class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Email / Username</label>
@@ -502,7 +502,7 @@
                     <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Buat akun CatatUang untuk mulai mencatat keuangan Anda.</p>
                 </div>
 
-                <form action="{{ Route::has('register') ? route('register') : '#' }}" method="POST" class="space-y-3.5">
+                <form action="{{ Route::has('register.post') ? route('register.post') : '#' }}" method="POST" class="space-y-3.5">
                     @csrf
                     <div>
                         <label for="reg-name" class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Nama Lengkap</label>
@@ -536,6 +536,18 @@
                             id="reg-password" 
                             required 
                             placeholder="Minimal 6 karakter"
+                            class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
+                        >
+                    </div>
+
+                    <div>
+                        <label for="reg-password-confirm" class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Konfirmasi Kata Sandi</label>
+                        <input 
+                            type="password" 
+                            name="password_confirmation" 
+                            id="reg-password-confirm" 
+                            required 
+                            placeholder="Ulangi kata sandi"
                             class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
                         >
                     </div>
