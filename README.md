@@ -50,11 +50,11 @@ Pastikan komputer Anda sudah terinstal:
 
 ## 👤 Team Developer
 
-•	Muhammad Rifqi Destama (UI/UX Designer & Prototype Specialist) Prototype, layout, pengalaman pengguna, Database configuration, dan rancangan antarmuka.
-•	Raushanfikri Abdillah	(Product Concept & User Flow Designer) Ide produk, kebutuhan fitur, struktur navigasi, dan alur pengguna.
-•	Dhiyan Sigit Dzaqita (Visual Design & Design System Specialist) Palet warna, identitas visual, design token, dan konsistensi tampilan.
-•	Bright Alvindra Pradipta (Lead Developer & Repository Administrator) Inisialisasi Laravel, integrasi teknis, GitHub, dan workflow development.
-•	Arifan Ismail ( 0 ).
+- • Muhammad Rifqi Destama (UI/UX Designer & Prototype Specialist) Prototype, layout, pengalaman pengguna, Database configuration, dan rancangan antarmuka.
+- • Raushanfikri Abdillah	(Product Concept & User Flow Designer) Ide produk, kebutuhan fitur, struktur navigasi, dan alur pengguna.
+- • Dhiyan Sigit Dzaqita (Visual Design & Design System Specialist) Palet warna, identitas visual, design token, dan konsistensi tampilan.
+- • Bright Alvindra Pradipta (Lead Developer & Repository Administrator) Inisialisasi Laravel, integrasi teknis, GitHub, dan workflow development.
+- • Arifan Ismail ( 0 ).
 
 ## Security Vulnerabilities
 
