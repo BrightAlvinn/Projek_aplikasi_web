@@ -108,7 +108,6 @@
                 <div>
                     <div class="flex items-center gap-1.5">
                         <span class="text-2xl font-bold font-heading text-[#4ABDAC] tracking-tight">CATATUANG</span>
-                        <span class="text-[10px] font-bold text-slate-400 dark:text-slate-500">by FinTrack</span>
                     </div>
                     <p class="text-[11px] text-slate-400 dark:text-slate-500 font-semibold tracking-tight hidden sm:block">Kelola Uang Makin Gampang</p>
                 </div>

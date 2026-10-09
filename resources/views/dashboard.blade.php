@@ -15,10 +15,10 @@
     <header class="bg-white border-b border-slate-200 sticky top-0 z-30 px-6 py-4 flex items-center justify-between shadow-xs">
         <div class="flex items-center gap-3">
             <div class="w-10 h-10 rounded-xl bg-teal-600 text-white font-bold flex items-center justify-center text-lg shadow-sm">
-                C
+                
             </div>
             <div>
-                <h1 class="text-base font-bold text-slate-900 leading-tight">CatatUang</h1>
+                <h1 class="text-base font-bold text-slate-900 leading-tight">CATATUANG</h1>
                 <p class="text-xs text-slate-400">Dashboard Pengelolaan Keuangan</p>
             </div>
         </div>
