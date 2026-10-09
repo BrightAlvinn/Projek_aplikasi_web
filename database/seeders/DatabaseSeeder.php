@@ -2,24 +2,22 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Kategori Pemasukan
+        Category::firstOrCreate(['name' => 'Gaji Bulanan', 'type' => 'income', 'color' => '#10b981']);
+        Category::firstOrCreate(['name' => 'Bonus & THR', 'type' => 'income', 'color' => '#06b6d4']);
+        Category::firstOrCreate(['name' => 'Investasi & Usaha', 'type' => 'income', 'color' => '#8b5cf6']);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Kategori Pengeluaran
+        Category::firstOrCreate(['name' => 'Makanan & Minuman', 'type' => 'expense', 'color' => '#ef4444']);
+        Category::firstOrCreate(['name' => 'Transportasi & Bensin', 'type' => 'expense', 'color' => '#f97316']);
+        Category::firstOrCreate(['name' => 'Belanja & Hiburan', 'type' => 'expense', 'color' => '#ec4899']);
+        Category::firstOrCreate(['name' => 'Tagihan & Listrik', 'type' => 'expense', 'color' => '#64748b']);
     }
 }

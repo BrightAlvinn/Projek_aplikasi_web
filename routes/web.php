@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\TransactionController;
 
 // Rute Landing Page (Bebas dari dependensi database untuk tahap awal)
 Route::get('/', function () {
@@ -23,4 +24,7 @@ Route::get('auth/google', [AuthController::class, 'googleLogin'])->name('auth.go
 // Rute yang Memerlukan Login (Dilindungi Middleware Auth)
 Route::middleware('auth')->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Rute CRUD Transaksi
+    Route::resource('transactions', TransactionController::class);
 });

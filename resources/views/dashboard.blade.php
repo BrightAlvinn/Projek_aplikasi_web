@@ -57,6 +57,11 @@
                 <h2 class="text-xl font-bold">Halo, {{ Auth::user()->name ?? 'Pengguna' }}! 👋</h2>
                 <p class="text-teal-100 text-xs mt-1">Selamat datang kembali di sistem pencatatan keuangan Anda.</p>
             </div>
+            <!-- Tombol Tambah Transaksi -->
+            <a href="{{ route('transactions.create') }}" class="bg-white text-teal-700 hover:bg-teal-50 font-bold px-4 py-2.5 rounded-xl text-xs transition shadow-sm inline-flex items-center gap-1.5 self-start sm:self-auto">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                <span>+ Catat Transaksi</span>
+            </a>
         </div>
 
         <!-- 3 Kartu Metrik Keuangan -->
