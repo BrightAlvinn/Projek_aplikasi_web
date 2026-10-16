@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full scroll-smooth bg-[#F8F9FB] dark:bg-slate-950 text-slate-800 dark:text-slate-100">
+<html lang="id" class="h-full scroll-smooth overflow-x-hidden bg-[#F8F9FB] dark:bg-slate-950 text-slate-800 dark:text-slate-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,40 +83,40 @@
         .card-custom:hover { border-color: #4ABDAC; box-shadow: 0 8px 30px -4px rgba(74, 189, 172, 0.15); }
         .dark .card-custom { background-color: #131b2a; border-color: #1e293b; }
         .dark .card-custom:hover { border-color: #4ABDAC; }
+        /* Mencegah elemen apa pun melebar melebihi viewport di mobile */
+        img, svg, video, canvas { max-width: 100%; }
     </style>
 </head>
-<body class="min-h-full bg-[#F8F9FB] dark:bg-slate-950 font-sans antialiased text-slate-800 dark:text-slate-200 selection:bg-[#4ABDAC]/25 selection:text-[#2e7e73] relative overflow-x-hidden transition-colors duration-300">
+<body class="min-h-full w-full max-w-full bg-[#F8F9FB] dark:bg-slate-950 font-sans antialiased text-slate-800 dark:text-slate-200 selection:bg-[#4ABDAC]/25 selection:text-[#2e7e73] relative overflow-x-hidden transition-colors duration-300">
 
     <!-- Ambient Subtle Glow Backgrounds (Pendaran Warna Latar Belakang) -->
     <div class="pointer-events-none fixed inset-0 z-0 overflow-hidden">
-        <div class="absolute -top-40 left-1/4 w-[600px] h-[500px] bg-[#4ABDAC]/10 dark:bg-[#4ABDAC]/5 rounded-full blur-3xl"></div>
-        <div class="absolute top-[35%] -left-36 w-[500px] h-[500px] bg-[#F7B733]/15 dark:bg-[#F7B733]/5 rounded-full blur-3xl"></div>
-        <div class="absolute top-[20%] -right-36 w-[600px] h-[600px] bg-[#4ABDAC]/10 dark:bg-[#4ABDAC]/5 rounded-full blur-3xl"></div>
-        <div class="absolute bottom-10 right-1/4 w-[500px] h-[400px] bg-[#FC4A1A]/8 dark:bg-[#FC4A1A]/5 rounded-full blur-3xl"></div>
+        <div class="absolute -top-40 left-1/4 w-[80vw] max-w-[600px] aspect-[6/5] bg-[#4ABDAC]/10 dark:bg-[#4ABDAC]/5 rounded-full blur-3xl"></div>
+        <div class="absolute top-[35%] -left-36 w-[70vw] max-w-[500px] aspect-square bg-[#F7B733]/15 dark:bg-[#F7B733]/5 rounded-full blur-3xl"></div>
+        <div class="absolute top-[20%] -right-36 w-[80vw] max-w-[600px] aspect-square bg-[#4ABDAC]/10 dark:bg-[#4ABDAC]/5 rounded-full blur-3xl"></div>
+        <div class="absolute bottom-10 right-1/4 w-[70vw] max-w-[500px] aspect-[5/4] bg-[#FC4A1A]/[0.08] dark:bg-[#FC4A1A]/5 rounded-full blur-3xl"></div>
     </div>
 
     <!-- TOP NAVIGATION BAR -->
     <header class="relative z-30 w-full border-b border-[#DFDCE3] dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-20 flex items-center justify-between gap-3 transition-all duration-300 ease-in-out">
             <!-- Brand Logo -->
-            <a href="{{ route('landing') }}" class="flex items-center gap-3 group">
-                <div class="w-11 h-11 rounded-2xl bg-[#4ABDAC] p-2 flex items-center justify-center shadow-md shadow-[#4ABDAC]/25 group-hover:scale-105 transition-transform duration-300">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('landing') }}" class="flex items-center gap-2 sm:gap-3 group min-w-0 shrink transition-all duration-300 ease-in-out">
+                <div class="w-9 h-9 sm:w-11 sm:h-11 shrink-0 rounded-xl sm:rounded-2xl bg-[#4ABDAC] p-2 flex items-center justify-center shadow-md shadow-[#4ABDAC]/25 group-hover:scale-105 transition-all duration-300 ease-in-out">
+                    <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                 </div>
-                <div>
-                    <div class="flex items-center gap-1.5">
-                        <span class="text-2xl font-bold font-heading text-[#4ABDAC] tracking-tight">CATATUANG</span>
-                    </div>
+                <div class="min-w-0">
+                    <span class="block truncate text-lg sm:text-2xl font-bold font-heading text-[#4ABDAC] tracking-tight transition-all duration-300 ease-in-out">CATATUANG</span>
                     <p class="text-[11px] text-slate-400 dark:text-slate-500 font-semibold tracking-tight hidden sm:block">Kelola Uang Makin Gampang</p>
                 </div>
             </a>
 
             <!-- Nav Menu Links -->
-            <nav class="flex items-center gap-3 sm:gap-5">
-                <a href="#fitur" class="text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-[#4ABDAC] transition-colors">Fitur</a>
-                <a href="#kalkulator" class="text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-[#4ABDAC] transition-colors hidden sm:inline-block">Kalkulator</a>
+            <nav class="flex items-center shrink-0 gap-2 sm:gap-3 md:gap-5 transition-all duration-300 ease-in-out">
+                <a href="#fitur" class="hidden md:inline-block text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-[#4ABDAC] transition-colors">Fitur</a>
+                <a href="#kalkulator" class="hidden md:inline-block text-sm font-bold text-slate-600 dark:text-slate-300 hover:text-[#4ABDAC] transition-colors">Kalkulator</a>
 
                 <!-- Theme Toggle Button -->
                 <button type="button" onclick="toggleTheme()" class="p-2 rounded-xl bg-[#F4F3F6] dark:bg-slate-800 border border-[#DFDCE3] dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-[#4ABDAC] transition" title="Ganti Mode Gelap/Terang">
@@ -128,10 +128,11 @@
                     </svg>
                 </button>
 
-                <button type="button" onclick="openAuthDrawer('login')" class="btn-catat-outline px-4 sm:px-6 py-2 text-xs sm:text-sm">
+                <button type="button" onclick="openAuthDrawer('login')" class="btn-catat-outline whitespace-nowrap !px-3.5 sm:!px-6 !py-2 !text-xs sm:!text-sm">
                     Masuk
                 </button>
-                <button type="button" onclick="openAuthDrawer('register')" class="btn-catat-primary px-4 sm:px-6 py-2 text-xs sm:text-sm">
+                {{-- Disembunyikan di mobile: CTA "Daftar Gratis" sudah ada di hero --}}
+                <button type="button" onclick="openAuthDrawer('register')" class="btn-catat-primary hidden sm:inline-flex whitespace-nowrap !px-6 !py-2 !text-sm">
                     Catat Sekarang
                 </button>
             </nav>
@@ -139,47 +140,47 @@
     </header>
 
     <!-- HERO SECTION -->
-    <section class="relative z-10 w-full min-h-[calc(100vh-80px)] flex items-center py-12 lg:py-20 border-b border-[#DFDCE3] dark:border-slate-800 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+    <section class="relative z-10 w-full lg:min-h-[calc(100vh-80px)] flex items-center py-10 md:py-16 lg:py-20 border-b border-[#DFDCE3] dark:border-slate-800 transition-all duration-300 ease-in-out">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full transition-all duration-300 ease-in-out">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16 items-center transition-all duration-300 ease-in-out">
                 
                 <!-- Left Column: Headline & CTA -->
-                <div class="lg:col-span-7">
+                <div class="lg:col-span-7 min-w-0">
                     <!-- Brand Pill Tag -->
-                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#eaf7f5] dark:bg-[#4ABDAC]/15 border border-[#4ABDAC]/30 text-[#2e7e73] dark:text-[#4ABDAC] text-xs font-bold mb-6">
+                    <div class="inline-flex max-w-full items-center gap-2 px-3 sm:px-4 py-1.5 rounded-full bg-[#eaf7f5] dark:bg-[#4ABDAC]/15 border border-[#4ABDAC]/30 text-[#2e7e73] dark:text-[#4ABDAC] text-[11px] sm:text-xs font-bold mb-5 md:mb-6 transition-all duration-300 ease-in-out">
                         <span class="w-2 h-2 rounded-full bg-[#4ABDAC] animate-pulse"></span>
                         CATATUANG / Kelola Uang Makin Gampang
                     </div>
 
                     <!-- Heading 1 (Primary Color #4ABDAC) -->
-                    <h1 class="text-4xl sm:text-5xl lg:text-[48px] font-bold font-heading text-[#4ABDAC] leading-[1.15] mb-4">
+                    <h1 class="text-[2rem] sm:text-5xl lg:text-[48px] font-bold font-heading text-[#4ABDAC] leading-[1.15] mb-4 break-words transition-all duration-300 ease-in-out">
                         Kendalikan Keuangan <br class="hidden sm:inline">
                         <span class="text-slate-800 dark:text-white">Anda Mulai Hari Ini</span>
                     </h1>
 
                     <!-- Heading 2 Subtitle (Coral #FC4A1A accent) -->
-                    <h2 class="text-xl sm:text-2xl lg:text-[28px] font-semibold font-heading text-[#FC4A1A] mb-6">
+                    <h2 class="text-lg sm:text-2xl lg:text-[28px] font-semibold font-heading text-[#FC4A1A] mb-4 md:mb-6 transition-all duration-300 ease-in-out">
                         Kelola Uang Makin Gampang Bersama CatatUang
                     </h2>
 
                     <!-- Body Description -->
-                    <p class="text-slate-600 dark:text-slate-300 text-base sm:text-lg leading-relaxed mb-8 max-w-xl">
+                    <p class="text-slate-600 dark:text-slate-300 text-[15px] sm:text-lg leading-relaxed mb-6 md:mb-8 max-w-xl transition-all duration-300 ease-in-out">
                         Catat pemasukan dan pengeluaran harian dengan cepat, visualisasikan grafik pergerakan uang, dan capai kebebasan finansial tanpa ribet.
                     </p>
 
                     <!-- CTA Buttons -->
-                    <div class="flex flex-wrap items-center gap-4 mb-10">
-                        <button type="button" onclick="openAuthDrawer('register')" class="btn-catat-primary text-base px-8 py-3.5 shadow-lg shadow-[#4ABDAC]/25">
+                    <div class="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 md:gap-4 mb-8 md:mb-10 transition-all duration-300 ease-in-out">
+                        <button type="button" onclick="openAuthDrawer('register')" class="btn-catat-primary w-full sm:w-auto !text-base !px-8 !py-3.5 shadow-lg shadow-[#4ABDAC]/25">
                             <span>Daftar Gratis</span>
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
                         </button>
-                        <button type="button" onclick="openAuthDrawer('login')" class="btn-catat-outline text-base px-7 py-3.5">
+                        <button type="button" onclick="openAuthDrawer('login')" class="btn-catat-outline w-full sm:w-auto !text-base !px-7 !py-3.5">
                             <span>Masuk ke Akun Anda</span>
                         </button>
                     </div>
 
                     <!-- Trust Highlights with Palette Badges -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-[#DFDCE3] dark:border-slate-800 text-xs font-semibold text-slate-600 dark:text-slate-400">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 pt-5 md:pt-6 border-t border-[#DFDCE3] dark:border-slate-800 text-xs font-semibold text-slate-600 dark:text-slate-400 transition-all duration-300 ease-in-out">
                         <div class="flex items-center gap-2">
                             <span class="w-5 h-5 rounded-full bg-[#4ABDAC]/20 text-[#4ABDAC] flex items-center justify-center font-bold">✓</span>
                             <span>100% Gratis & Bebas Biaya</span>
@@ -196,45 +197,45 @@
                 </div>
 
                 <!-- Right Column: Interactive App Showcase Card -->
-                <div class="lg:col-span-5 relative">
-                    <!-- Glow Backdrop -->
-                    <div class="absolute -inset-4 bg-[#4ABDAC]/15 rounded-3xl blur-2xl pointer-events-none"></div>
+                <div class="lg:col-span-5 relative w-full max-w-md mx-auto lg:max-w-none min-w-0 transition-all duration-300 ease-in-out">
+                    <!-- Glow Backdrop (inset-0 di mobile agar tidak memicu overflow) -->
+                    <div class="absolute inset-0 sm:-inset-4 bg-[#4ABDAC]/15 rounded-3xl blur-2xl pointer-events-none"></div>
 
                     <!-- Mockup Card -->
-                    <div class="relative bg-white dark:bg-slate-900 border-2 border-[#DFDCE3] dark:border-slate-800 rounded-3xl p-5 sm:p-7 shadow-2xl transition-colors duration-300">
+                    <div class="relative bg-white dark:bg-slate-900 border-2 border-[#DFDCE3] dark:border-slate-800 rounded-2xl sm:rounded-3xl p-4 sm:p-6 md:p-7 shadow-2xl transition-all duration-300 ease-in-out">
                         <!-- Card Header Mockup -->
-                        <div class="flex items-center justify-between pb-4 border-b border-[#DFDCE3] dark:border-slate-800 mb-5">
-                            <div class="flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-xl bg-[#4ABDAC] text-white flex items-center justify-center font-bold font-heading text-sm">
+                        <div class="flex items-center justify-between gap-3 pb-4 border-b border-[#DFDCE3] dark:border-slate-800 mb-4 md:mb-5">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <div class="w-8 h-8 shrink-0 rounded-xl bg-[#4ABDAC] text-white flex items-center justify-center font-bold font-heading text-sm">
                                     C
                                 </div>
-                                <div>
-                                    <h4 class="text-sm font-bold font-heading text-slate-800 dark:text-white">CatatUang Dashboard</h4>
+                                <div class="min-w-0">
+                                    <h4 class="text-sm font-bold font-heading text-slate-800 dark:text-white truncate">CatatUang Dashboard</h4>
                                     <p class="text-[10px] text-slate-400 dark:text-slate-500 font-medium">Ringkasan Bulan Ini</p>
                                 </div>
                             </div>
-                            <span class="px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#eaf7f5] dark:bg-[#4ABDAC]/20 text-[#2e7e73] dark:text-[#4ABDAC] border border-[#4ABDAC]/30">
+                            <span class="shrink-0 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#eaf7f5] dark:bg-[#4ABDAC]/20 text-[#2e7e73] dark:text-[#4ABDAC] border border-[#4ABDAC]/30">
                                 Aktif
                             </span>
                         </div>
 
                         <!-- 2 Quick Metrics -->
-                        <div class="grid grid-cols-2 gap-3 mb-5">
-                            <div class="p-3.5 rounded-2xl bg-[#F8F9FB] dark:bg-slate-800/80 border border-[#DFDCE3] dark:border-slate-700">
+                        <div class="grid grid-cols-2 gap-2.5 sm:gap-3 mb-4 md:mb-5 transition-all duration-300 ease-in-out">
+                            <div class="min-w-0 p-3 sm:p-3.5 rounded-2xl bg-[#F8F9FB] dark:bg-slate-800/80 border border-[#DFDCE3] dark:border-slate-700 transition-all duration-300 ease-in-out">
                                 <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">Pemasukan</span>
-                                <p class="text-base sm:text-lg font-black text-[#4ABDAC] mt-0.5">+ Rp 14.500.000</p>
+                                <p class="text-[13px] sm:text-lg font-black text-[#4ABDAC] mt-0.5 break-words transition-all duration-300 ease-in-out">+ Rp 14.500.000</p>
                                 <span class="text-[9px] font-bold text-[#2e7e73] dark:text-[#4ABDAC] bg-[#4ABDAC]/15 px-1.5 py-0.5 rounded">Inflow</span>
                             </div>
-                            <div class="p-3.5 rounded-2xl bg-[#F8F9FB] dark:bg-slate-800/80 border border-[#DFDCE3] dark:border-slate-700">
+                            <div class="min-w-0 p-3 sm:p-3.5 rounded-2xl bg-[#F8F9FB] dark:bg-slate-800/80 border border-[#DFDCE3] dark:border-slate-700 transition-all duration-300 ease-in-out">
                                 <span class="text-[11px] font-semibold text-slate-500 dark:text-slate-400">Pengeluaran</span>
-                                <p class="text-base sm:text-lg font-black text-[#FC4A1A] mt-0.5">- Rp 5.250.000</p>
+                                <p class="text-[13px] sm:text-lg font-black text-[#FC4A1A] mt-0.5 break-words transition-all duration-300 ease-in-out">- Rp 5.250.000</p>
                                 <span class="text-[9px] font-bold text-[#FC4A1A] bg-[#FC4A1A]/15 px-1.5 py-0.5 rounded">Outflow</span>
                             </div>
                         </div>
 
                         <!-- Visual Progress Bars -->
-                        <div class="p-4 rounded-2xl bg-[#F8F9FB] dark:bg-slate-800/80 border border-[#DFDCE3] dark:border-slate-700 mb-5">
-                            <div class="flex items-center justify-between text-xs font-bold mb-2">
+                        <div class="p-3 sm:p-4 rounded-2xl bg-[#F8F9FB] dark:bg-slate-800/80 border border-[#DFDCE3] dark:border-slate-700 mb-4 md:mb-5 transition-all duration-300 ease-in-out">
+                            <div class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs font-bold mb-2">
                                 <span class="text-slate-600 dark:text-slate-300">Alokasi Anggaran Bulanan</span>
                                 <span class="text-[#4ABDAC]">64% Sisa Saldo</span>
                             </div>
@@ -243,7 +244,7 @@
                                 <div class="bg-[#F7B733] h-full" style="width: 25%" title="Tabungan (25%)"></div>
                                 <div class="bg-[#FC4A1A] h-full" style="width: 25%" title="Keinginan (25%)"></div>
                             </div>
-                            <div class="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400 font-semibold mt-2">
+                            <div class="flex flex-wrap items-center justify-between gap-2 text-[10px] text-slate-500 dark:text-slate-400 font-semibold mt-2">
                                 <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#4ABDAC]"></span> Kebutuhan</span>
                                 <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#F7B733]"></span> Tabungan</span>
                                 <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-[#FC4A1A]"></span> Keinginan</span>
@@ -252,26 +253,26 @@
 
                         <!-- Mini Transactions Sample -->
                         <div class="space-y-2">
-                            <div class="flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-[#DFDCE3] dark:border-slate-700 text-xs">
-                                <div class="flex items-center gap-2.5">
-                                    <div class="w-7 h-7 rounded-lg bg-[#4ABDAC]/15 text-[#4ABDAC] flex items-center justify-center font-bold">↓</div>
-                                    <div>
-                                        <p class="font-bold text-slate-800 dark:text-slate-200">Gaji Bulanan</p>
-                                        <span class="text-[10px] text-slate-400">Pekerjaan Utama</span>
+                            <div class="flex items-center justify-between gap-3 p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-[#DFDCE3] dark:border-slate-700 text-xs">
+                                <div class="flex items-center gap-2.5 min-w-0">
+                                    <div class="w-7 h-7 shrink-0 rounded-lg bg-[#4ABDAC]/15 text-[#4ABDAC] flex items-center justify-center font-bold">↓</div>
+                                    <div class="min-w-0">
+                                        <p class="font-bold text-slate-800 dark:text-slate-200 truncate">Gaji Bulanan</p>
+                                        <span class="block text-[10px] text-slate-400 truncate">Pekerjaan Utama</span>
                                     </div>
                                 </div>
-                                <span class="font-bold text-[#4ABDAC]">+ Rp 12.000.000</span>
+                                <span class="shrink-0 whitespace-nowrap font-bold text-[#4ABDAC]">+ Rp 12.000.000</span>
                             </div>
 
-                            <div class="flex items-center justify-between p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-[#DFDCE3] dark:border-slate-700 text-xs">
-                                <div class="flex items-center gap-2.5">
-                                    <div class="w-7 h-7 rounded-lg bg-[#FC4A1A]/15 text-[#FC4A1A] flex items-center justify-center font-bold">↑</div>
-                                    <div>
-                                        <p class="font-bold text-slate-800 dark:text-slate-200">Belanja Bulanan</p>
-                                        <span class="text-[10px] text-slate-400">Supermarket</span>
+                            <div class="flex items-center justify-between gap-3 p-2.5 rounded-xl bg-white dark:bg-slate-800 border border-[#DFDCE3] dark:border-slate-700 text-xs">
+                                <div class="flex items-center gap-2.5 min-w-0">
+                                    <div class="w-7 h-7 shrink-0 rounded-lg bg-[#FC4A1A]/15 text-[#FC4A1A] flex items-center justify-center font-bold">↑</div>
+                                    <div class="min-w-0">
+                                        <p class="font-bold text-slate-800 dark:text-slate-200 truncate">Belanja Bulanan</p>
+                                        <span class="block text-[10px] text-slate-400 truncate">Supermarket</span>
                                     </div>
                                 </div>
-                                <span class="font-bold text-[#FC4A1A]">- Rp 1.450.000</span>
+                                <span class="shrink-0 whitespace-nowrap font-bold text-[#FC4A1A]">- Rp 1.450.000</span>
                             </div>
                         </div>
                     </div>
@@ -282,22 +283,22 @@
     </section>
 
     <!-- SECTION FITUR UNGGULAN -->
-    <section id="fitur" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="text-center max-w-3xl mx-auto mb-16">
+    <section id="fitur" class="py-12 md:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 scroll-mt-16 md:scroll-mt-20 transition-all duration-300 ease-in-out">
+        <div class="text-center max-w-3xl mx-auto mb-8 md:mb-16 transition-all duration-300 ease-in-out">
             <span class="px-3.5 py-1 rounded-full bg-[#eaf7f5] dark:bg-[#4ABDAC]/15 text-[#2e7e73] dark:text-[#4ABDAC] text-xs font-bold uppercase tracking-wider border border-[#4ABDAC]/30">
                 Fitur Unggulan
             </span>
-            <h2 class="text-3xl sm:text-4xl font-bold font-heading text-[#4ABDAC] mt-4">
+            <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-[#4ABDAC] mt-4 transition-all duration-300 ease-in-out">
                 Didesain Khusus untuk Efisiensi & Kontrol Finansial
             </h2>
-            <p class="text-slate-600 dark:text-slate-300 text-base mt-3 font-normal">
+            <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-3 font-normal">
                 Nikmati kemudahan mencatat dan menganalisis setiap transaksi dalam satu aplikasi modern.
             </p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 transition-all duration-300 ease-in-out">
             <!-- 1. Pencatatan Instan -->
-            <div class="p-7 rounded-3xl card-custom">
+            <div class="p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom !transition-all !duration-300 ease-in-out">
                 <div class="w-12 h-12 rounded-2xl bg-[#4ABDAC]/15 text-[#4ABDAC] flex items-center justify-center mb-5">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
                 </div>
@@ -306,7 +307,7 @@
             </div>
 
             <!-- 2. Grafik Tren -->
-            <div class="p-7 rounded-3xl card-custom">
+            <div class="p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom !transition-all !duration-300 ease-in-out">
                 <div class="w-12 h-12 rounded-2xl bg-[#FC4A1A]/15 text-[#FC4A1A] flex items-center justify-center mb-5">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
                 </div>
@@ -315,7 +316,7 @@
             </div>
 
             <!-- 3. Kategori Berwarna -->
-            <div class="p-7 rounded-3xl card-custom">
+            <div class="p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom !transition-all !duration-300 ease-in-out">
                 <div class="w-12 h-12 rounded-2xl bg-[#F7B733]/20 text-[#c78600] dark:text-[#F7B733] flex items-center justify-center mb-5">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
                 </div>
@@ -324,7 +325,7 @@
             </div>
 
             <!-- 4. Laporan & Filter -->
-            <div class="p-7 rounded-3xl card-custom">
+            <div class="p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom !transition-all !duration-300 ease-in-out">
                 <div class="w-12 h-12 rounded-2xl bg-[#4ABDAC]/15 text-[#4ABDAC] flex items-center justify-center mb-5">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                 </div>
@@ -333,7 +334,7 @@
             </div>
 
             <!-- 5. Ekspor CSV -->
-            <div class="p-7 rounded-3xl card-custom">
+            <div class="p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom !transition-all !duration-300 ease-in-out">
                 <div class="w-12 h-12 rounded-2xl bg-[#FC4A1A]/15 text-[#FC4A1A] flex items-center justify-center mb-5">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 </div>
@@ -342,7 +343,7 @@
             </div>
 
             <!-- 6. Privasi Aman -->
-            <div class="p-7 rounded-3xl card-custom">
+            <div class="p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom !transition-all !duration-300 ease-in-out">
                 <div class="w-12 h-12 rounded-2xl bg-[#F7B733]/20 text-[#c78600] dark:text-[#F7B733] flex items-center justify-center mb-5">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
                 </div>
@@ -353,13 +354,13 @@
     </section>
 
     <!-- SECTION KALKULATOR ANGGARAN 50/30/20 -->
-    <section id="kalkulator" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div class="p-8 sm:p-12 rounded-3xl bg-white dark:bg-slate-900 border border-[#DFDCE3] dark:border-slate-800 relative overflow-hidden shadow-xl transition-colors duration-300">
-            <div class="max-w-3xl mx-auto text-center mb-8">
+    <section id="kalkulator" class="py-12 md:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 scroll-mt-16 md:scroll-mt-20 transition-all duration-300 ease-in-out">
+        <div class="p-5 sm:p-8 md:p-12 rounded-2xl md:rounded-3xl bg-white dark:bg-slate-900 border border-[#DFDCE3] dark:border-slate-800 relative overflow-hidden shadow-xl transition-all duration-300 ease-in-out">
+            <div class="max-w-3xl mx-auto text-center mb-6 md:mb-8">
                 <span class="px-3.5 py-1 rounded-full bg-[#fef9eb] dark:bg-[#F7B733]/15 text-[#b87b00] dark:text-[#F7B733] text-xs font-bold uppercase tracking-wider border border-[#F7B733]/40">
                     Kalkulator Interaktif
                 </span>
-                <h2 class="text-3xl sm:text-4xl font-bold font-heading text-[#4ABDAC] mt-4">
+                <h2 class="text-2xl sm:text-3xl md:text-4xl font-bold font-heading text-[#4ABDAC] mt-4 transition-all duration-300 ease-in-out">
                     Kalkulator Aturan Anggaran 50 / 30 / 20
                 </h2>
                 <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-2 font-normal">
@@ -367,7 +368,7 @@
                 </p>
             </div>
 
-            <div class="max-w-xl mx-auto space-y-6">
+            <div class="w-full max-w-xl mx-auto space-y-5 md:space-y-6">
                 <div>
                     <label for="incomeInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
                         Pemasukan Bulanan Anda (Rp)
@@ -382,7 +383,7 @@
                             value="10000000" 
                             step="500000" 
                             min="100000"
-                            class="w-full pl-14 pr-4 py-3 rounded-2xl bg-[#F8F9FB] dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-900 dark:text-white font-bold text-lg focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
+                            class="w-full min-w-0 pl-12 sm:pl-14 pr-4 py-3 rounded-2xl bg-[#F8F9FB] dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-900 dark:text-white font-bold text-lg focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
                         >
                     </div>
                 </div>
@@ -397,7 +398,7 @@
                 </div>
 
                 <!-- 3 Alokasi Cards Berwarna -->
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-3">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 md:gap-4 pt-3 transition-all duration-300 ease-in-out">
                     <div class="p-4 rounded-2xl bg-[#eaf7f5] dark:bg-[#4ABDAC]/15 border border-[#4ABDAC]/30">
                         <span class="text-xs font-bold text-[#2e7e73] dark:text-[#4ABDAC]">50% Kebutuhan</span>
                         <p id="needsResult" class="text-lg font-black text-[#4ABDAC] mt-1">Rp 5.000.000</p>
@@ -424,24 +425,26 @@
          class="opacity-0 pointer-events-none fixed inset-0 z-50 bg-slate-900/60 dark:bg-black/75 backdrop-blur-sm transition-opacity duration-300">
     </div>
 
+    {{-- invisible saat tertutup: drawer yang digeser keluar layar tidak lagi menambah lebar halaman di mobile --}}
     <aside id="auth-drawer" 
-           class="translate-x-full fixed inset-y-0 right-0 z-50 w-full sm:w-[460px] md:w-[480px] bg-white dark:bg-slate-900 border-l border-[#DFDCE3] dark:border-slate-800 shadow-2xl transition-transform duration-500 ease-out flex flex-col justify-between overflow-y-auto">
-        <div class="p-6 sm:p-8">
+           aria-hidden="true"
+           class="translate-x-full invisible fixed inset-y-0 right-0 z-50 w-full max-w-full sm:max-w-md md:max-w-[480px] bg-white dark:bg-slate-900 border-l border-[#DFDCE3] dark:border-slate-800 shadow-2xl transition-all duration-500 ease-out flex flex-col justify-between overflow-y-auto overflow-x-hidden">
+        <div class="w-full min-w-0 p-4 sm:p-6 md:p-8 transition-all duration-300 ease-in-out">
             <!-- Header with Close Button -->
-            <div class="flex items-center justify-between pb-6 border-b border-[#DFDCE3] dark:border-slate-800">
-                <div class="flex items-center gap-2.5">
-                    <div class="w-9 h-9 rounded-xl bg-[#4ABDAC] flex items-center justify-center text-white font-bold font-heading">
+            <div class="flex items-center justify-between gap-3 pb-4 md:pb-6 border-b border-[#DFDCE3] dark:border-slate-800 transition-all duration-300 ease-in-out">
+                <div class="flex items-center gap-2.5 min-w-0">
+                    <div class="w-9 h-9 shrink-0 rounded-xl bg-[#4ABDAC] flex items-center justify-center text-white font-bold font-heading">
                         C
                     </div>
-                    <div>
-                        <span class="text-base font-bold font-heading text-[#4ABDAC] tracking-tight">CATATUANG</span>
-                        <p class="text-[10px] text-slate-400 dark:text-slate-500">Kelola Uang Makin Gampang</p>
+                    <div class="min-w-0">
+                        <span class="block truncate text-base font-bold font-heading text-[#4ABDAC] tracking-tight">CATATUANG</span>
+                        <p class="truncate text-[10px] text-slate-400 dark:text-slate-500">Kelola Uang Makin Gampang</p>
                     </div>
                 </div>
                 <button type="button" 
                         onclick="closeAuthDrawer()" 
-                        class="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-[#F4F3F6] dark:hover:bg-slate-800 transition-colors" 
-                        title="Tutup">
+                        class="shrink-0 p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-[#F4F3F6] dark:hover:bg-slate-800 transition-colors" 
+                        title="Tutup" aria-label="Tutup">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
@@ -449,13 +452,13 @@
             </div>
 
             <!-- LOGIN BOX -->
-            <div id="login-box" class="block pt-6">
-                <div class="mb-5 pr-4">
-                    <h2 class="text-2xl font-bold font-heading text-[#4ABDAC] tracking-tight">Masuk ke Akun Anda</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Masukkan kredensial Anda untuk melanjutkan ke dashboard CatatUang.</p>
+            <div id="login-box" class="block pt-5 md:pt-6">
+                <div class="mb-5">
+                    <h2 class="text-xl sm:text-2xl font-bold font-heading text-[#4ABDAC] tracking-tight transition-all duration-300 ease-in-out">Masuk ke Akun Anda</h2>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Masukkan kredensial Anda untuk melanjutkan ke dashboard CatatUang.</p>
                 </div>
 
-                <form action="{{ Route::has('login.post') ? route('login.post') : '#' }}" method="POST" class="space-y-4">
+                <form action="{{ Route::has('login.post') ? route('login.post') : '#' }}" method="POST" class="w-full space-y-4">
                     @csrf
                     <div>
                         <label for="login-email" class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Email / Username</label>
@@ -465,7 +468,7 @@
                             id="login-email" 
                             required 
                             placeholder="nama@email.com"
-                            class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
+                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
                         >
                     </div>
 
@@ -477,7 +480,7 @@
                             id="login-password" 
                             required 
                             placeholder="Kata Sandi Anda"
-                            class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
+                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
                         >
                     </div>
 
@@ -495,13 +498,13 @@
             </div>
 
             <!-- REGISTER BOX -->
-            <div id="register-box" class="hidden pt-6">
-                <div class="mb-4 pr-4">
-                    <h2 class="text-2xl font-bold font-heading text-[#FC4A1A] tracking-tight">Daftar Akun Baru</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Buat akun CatatUang untuk mulai mencatat keuangan Anda.</p>
+            <div id="register-box" class="hidden pt-5 md:pt-6">
+                <div class="mb-4">
+                    <h2 class="text-xl sm:text-2xl font-bold font-heading text-[#FC4A1A] tracking-tight transition-all duration-300 ease-in-out">Daftar Akun Baru</h2>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Buat akun CatatUang untuk mulai mencatat keuangan Anda.</p>
                 </div>
 
-                <form action="{{ Route::has('register.post') ? route('register.post') : '#' }}" method="POST" class="space-y-3.5">
+                <form action="{{ Route::has('register.post') ? route('register.post') : '#' }}" method="POST" class="w-full space-y-3.5">
                     @csrf
                     <div>
                         <label for="reg-name" class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Nama Lengkap</label>
@@ -511,7 +514,7 @@
                             id="reg-name" 
                             required 
                             placeholder="Nama Lengkap Anda"
-                            class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
+                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
                         >
                     </div>
 
@@ -523,7 +526,7 @@
                             id="reg-email" 
                             required 
                             placeholder="nama@email.com"
-                            class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
+                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
                         >
                     </div>
 
@@ -535,7 +538,7 @@
                             id="reg-password" 
                             required 
                             placeholder="Minimal 6 karakter"
-                            class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
+                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
                         >
                     </div>
 
@@ -547,7 +550,7 @@
                             id="reg-password-confirm" 
                             required 
                             placeholder="Ulangi kata sandi"
-                            class="w-full px-4 py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
+                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
                         >
                     </div>
 
@@ -573,19 +576,19 @@
     </aside>
 
     <!-- FOOTER -->
-    <footer class="border-t border-[#DFDCE3] dark:border-slate-800 bg-white dark:bg-slate-950 py-12 relative z-10 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer class="border-t border-[#DFDCE3] dark:border-slate-800 bg-white dark:bg-slate-950 py-8 md:py-12 relative z-10 transition-all duration-300 ease-in-out">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6 text-center md:text-left transition-all duration-300 ease-in-out">
             <div class="flex items-center gap-3">
-                <div class="w-9 h-9 rounded-xl bg-[#4ABDAC] flex items-center justify-center text-white font-bold font-heading text-sm">
+                <div class="w-9 h-9 shrink-0 rounded-xl bg-[#4ABDAC] flex items-center justify-center text-white font-bold font-heading text-sm">
                     C
                 </div>
-                <div>
+                <div class="flex flex-col sm:flex-row sm:items-center text-left">
                     <span class="text-base font-bold font-heading text-[#4ABDAC] tracking-tight">CATATUANG</span>
-                    <span class="text-xs text-slate-500 dark:text-slate-400 ml-2 font-medium">• Kelola Uang Makin Gampang</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400 sm:ml-2 font-medium"><span class="hidden sm:inline">• </span>Kelola Uang Makin Gampang</span>
                 </div>
             </div>
 
-            <div class="flex items-center gap-6 text-xs font-bold text-slate-600 dark:text-slate-400">
+            <div class="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 md:gap-6 text-xs font-bold text-slate-600 dark:text-slate-400">
                 <a href="#fitur" class="hover:text-[#4ABDAC] transition">Fitur</a>
                 <a href="#kalkulator" class="hover:text-[#4ABDAC] transition">Kalkulator</a>
                 <button type="button" onclick="switchToLogin()" class="hover:text-[#4ABDAC] transition">Masuk</button>
@@ -632,18 +635,22 @@
                 overlay.classList.add('opacity-100', 'pointer-events-auto');
             }
             if (drawer) {
-                drawer.classList.remove('translate-x-full');
-                drawer.classList.add('translate-x-0');
+                drawer.classList.remove('translate-x-full', 'invisible');
+                drawer.classList.add('translate-x-0', 'visible');
+                drawer.setAttribute('aria-hidden', 'false');
             }
+            document.body.classList.add('overflow-hidden');
         }
 
         function closeAuthDrawer() {
             const drawer = document.getElementById('auth-drawer');
             const overlay = document.getElementById('auth-drawer-overlay');
             if (drawer) {
-                drawer.classList.remove('translate-x-0');
-                drawer.classList.add('translate-x-full');
+                drawer.classList.remove('translate-x-0', 'visible');
+                drawer.classList.add('translate-x-full', 'invisible');
+                drawer.setAttribute('aria-hidden', 'true');
             }
+            document.body.classList.remove('overflow-hidden');
             if (overlay) {
                 overlay.classList.remove('opacity-100', 'pointer-events-auto');
                 overlay.classList.add('opacity-0', 'pointer-events-none');
