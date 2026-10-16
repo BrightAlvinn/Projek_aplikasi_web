@@ -298,57 +298,93 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8 transition-all duration-300 ease-in-out">
             <!-- 1. Pencatatan Instan -->
-            <div class="p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom !transition-all !duration-300 ease-in-out">
-                <div class="w-12 h-12 rounded-2xl bg-[#4ABDAC]/15 text-[#4ABDAC] flex items-center justify-center mb-5">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+            <div onclick="openAuthForFeature('Pencatatan Instan 5 Detik')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openAuthForFeature('Pencatatan Instan 5 Detik')" class="cursor-pointer group p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom hover:-translate-y-1.5 hover:shadow-xl hover:border-[#4ABDAC] !transition-all !duration-300 ease-in-out flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-[#4ABDAC]/15 text-[#4ABDAC] group-hover:bg-[#4ABDAC] group-hover:text-white transition-colors flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2 group-hover:text-[#4ABDAC] transition-colors">Pencatatan Instan 5 Detik</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Catat pengeluaran dan pemasukan dengan cepat lengkap dengan kategori, nominal, dan tanggal transaksi.</p>
                 </div>
-                <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Pencatatan Instan 5 Detik</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Catat pengeluaran dan pemasukan dengan cepat lengkap dengan kategori, nominal, dan tanggal transaksi.</p>
+                <div class="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-[#4ABDAC] group-hover:text-[#3ca092] transition-colors">
+                    <span>Coba Fitur Ini</span>
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </div>
             </div>
 
             <!-- 2. Grafik Tren -->
-            <div class="p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom !transition-all !duration-300 ease-in-out">
-                <div class="w-12 h-12 rounded-2xl bg-[#FC4A1A]/15 text-[#FC4A1A] flex items-center justify-center mb-5">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+            <div onclick="openAuthForFeature('Grafik Tren Arus Kas')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openAuthForFeature('Grafik Tren Arus Kas')" class="cursor-pointer group p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom hover:-translate-y-1.5 hover:shadow-xl hover:border-[#FC4A1A] !transition-all !duration-300 ease-in-out flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-[#FC4A1A]/15 text-[#FC4A1A] group-hover:bg-[#FC4A1A] group-hover:text-white transition-colors flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2 group-hover:text-[#FC4A1A] transition-colors">Grafik Tren Arus Kas</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Pantau pertumbuhan tabungan dan rasio pemasukan vs pengeluaran Anda dengan visualisasi grafik interaktif.</p>
                 </div>
-                <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Grafik Tren Arus Kas</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Pantau pertumbuhan tabungan dan rasio pemasukan vs pengeluaran Anda dengan visualisasi grafik interaktif.</p>
+                <div class="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-[#FC4A1A] group-hover:text-[#e03b0d] transition-colors">
+                    <span>Coba Fitur Ini</span>
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </div>
             </div>
 
             <!-- 3. Kategori Berwarna -->
-            <div class="p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom !transition-all !duration-300 ease-in-out">
-                <div class="w-12 h-12 rounded-2xl bg-[#F7B733]/20 text-[#c78600] dark:text-[#F7B733] flex items-center justify-center mb-5">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+            <div onclick="openAuthForFeature('Kategori Kustom & Berwarna')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openAuthForFeature('Kategori Kustom & Berwarna')" class="cursor-pointer group p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom hover:-translate-y-1.5 hover:shadow-xl hover:border-[#F7B733] !transition-all !duration-300 ease-in-out flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-[#F7B733]/20 text-[#c78600] dark:text-[#F7B733] group-hover:bg-[#F7B733] group-hover:text-white transition-colors flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2 group-hover:text-[#d89300] dark:group-hover:text-[#F7B733] transition-colors">Kategori Kustom & Berwarna</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Kelompokkan transaksi sesuka hati dengan pilihan palet warna dan ikon yang representatif.</p>
                 </div>
-                <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Kategori Kustom & Berwarna</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Kelompokkan transaksi sesuka hati dengan pilihan palet warna dan ikon yang representatif.</p>
+                <div class="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-[#b87b00] dark:text-[#F7B733] group-hover:text-[#8a5d00] transition-colors">
+                    <span>Coba Fitur Ini</span>
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </div>
             </div>
 
             <!-- 4. Laporan & Filter -->
-            <div class="p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom !transition-all !duration-300 ease-in-out">
-                <div class="w-12 h-12 rounded-2xl bg-[#4ABDAC]/15 text-[#4ABDAC] flex items-center justify-center mb-5">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <div onclick="openAuthForFeature('Laporan & Filter Periode')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openAuthForFeature('Laporan & Filter Periode')" class="cursor-pointer group p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom hover:-translate-y-1.5 hover:shadow-xl hover:border-[#4ABDAC] !transition-all !duration-300 ease-in-out flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-[#4ABDAC]/15 text-[#4ABDAC] group-hover:bg-[#4ABDAC] group-hover:text-white transition-colors flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2 group-hover:text-[#4ABDAC] transition-colors">Laporan & Filter Periode</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Filter transaksi berdasarkan rentang tanggal, kategori, atau tipe untuk evaluasi anggaran berkala.</p>
                 </div>
-                <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Laporan & Filter Periode</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Filter transaksi berdasarkan rentang tanggal, kategori, atau tipe untuk evaluasi anggaran berkala.</p>
+                <div class="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-[#4ABDAC] group-hover:text-[#3ca092] transition-colors">
+                    <span>Coba Fitur Ini</span>
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </div>
             </div>
 
             <!-- 5. Ekspor CSV -->
-            <div class="p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom !transition-all !duration-300 ease-in-out">
-                <div class="w-12 h-12 rounded-2xl bg-[#FC4A1A]/15 text-[#FC4A1A] flex items-center justify-center mb-5">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <div onclick="openAuthForFeature('Ekspor CSV Spreadsheet')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openAuthForFeature('Ekspor CSV Spreadsheet')" class="cursor-pointer group p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom hover:-translate-y-1.5 hover:shadow-xl hover:border-[#FC4A1A] !transition-all !duration-300 ease-in-out flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-[#FC4A1A]/15 text-[#FC4A1A] group-hover:bg-[#FC4A1A] group-hover:text-white transition-colors flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2 group-hover:text-[#FC4A1A] transition-colors">Ekspor CSV Spreadsheet</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Unduh seluruh riwayat pembukuan ke file format CSV untuk dibuka di Microsoft Excel atau Google Sheets.</p>
                 </div>
-                <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">Ekspor CSV Spreadsheet</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Unduh seluruh riwayat pembukuan ke file format CSV untuk dibuka di Microsoft Excel atau Google Sheets.</p>
+                <div class="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-[#FC4A1A] group-hover:text-[#e03b0d] transition-colors">
+                    <span>Coba Fitur Ini</span>
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </div>
             </div>
 
             <!-- 6. Privasi Aman -->
-            <div class="p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom !transition-all !duration-300 ease-in-out">
-                <div class="w-12 h-12 rounded-2xl bg-[#F7B733]/20 text-[#c78600] dark:text-[#F7B733] flex items-center justify-center mb-5">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <div onclick="openAuthForFeature('100% Privasi & Data Lokal')" role="button" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' ') openAuthForFeature('100% Privasi & Data Lokal')" class="cursor-pointer group p-5 md:p-7 rounded-2xl md:rounded-3xl card-custom hover:-translate-y-1.5 hover:shadow-xl hover:border-[#F7B733] !transition-all !duration-300 ease-in-out flex flex-col justify-between">
+                <div>
+                    <div class="w-12 h-12 rounded-2xl bg-[#F7B733]/20 text-[#c78600] dark:text-[#F7B733] group-hover:bg-[#F7B733] group-hover:text-white transition-colors flex items-center justify-center mb-5">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    </div>
+                    <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2 group-hover:text-[#d89300] dark:group-hover:text-[#F7B733] transition-colors">100% Privasi & Data Lokal</h3>
+                    <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Data Anda tersimpan di server database lokal Anda sendiri, tanpa pelacak atau iklan pihak ketiga.</p>
                 </div>
-                <h3 class="text-lg font-bold font-heading text-slate-900 dark:text-white mb-2">100% Privasi & Data Lokal</h3>
-                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">Data Anda tersimpan di server database lokal Anda sendiri, tanpa pelacak atau iklan pihak ketiga.</p>
+                <div class="mt-5 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-bold text-[#b87b00] dark:text-[#F7B733] group-hover:text-[#8a5d00] transition-colors">
+                    <span>Coba Fitur Ini</span>
+                    <svg class="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </div>
             </div>
         </div>
     </section>
@@ -370,21 +406,34 @@
 
             <div class="w-full max-w-xl mx-auto space-y-5 md:space-y-6">
                 <div>
-                    <label for="incomeInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 mb-2">
-                        Pemasukan Bulanan Anda (Rp)
-                    </label>
-                    <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#4ABDAC] font-bold text-base">
-                            Rp
+                    <div class="flex items-center justify-between mb-2">
+                        <label for="incomeInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                            Pemasukan Bulanan Anda (Rp)
+                        </label>
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400 font-semibold">
+                            Uji Coba: <span id="calcUsageBadge" class="font-bold text-[#4ABDAC]">0</span>/3
                         </span>
-                        <input 
-                            type="number" 
-                            id="incomeInput" 
-                            value="10000000" 
-                            step="500000" 
-                            min="100000"
-                            class="w-full min-w-0 pl-12 sm:pl-14 pr-4 py-3 rounded-2xl bg-[#F8F9FB] dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-900 dark:text-white font-bold text-lg focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
-                        >
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="relative flex-1">
+                            <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-[#4ABDAC] font-bold text-base">
+                                Rp
+                            </span>
+                            <input 
+                                type="number" 
+                                id="incomeInput" 
+                                value="10000000" 
+                                step="500000" 
+                                min="100000"
+                                class="w-full min-w-0 pl-12 sm:pl-14 pr-4 py-3 rounded-2xl bg-[#F8F9FB] dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-900 dark:text-white font-bold text-lg focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
+                            >
+                        </div>
+                        <button type="button" 
+                                id="btnCalculateIncome" 
+                                class="btn-catat-primary whitespace-nowrap !py-3 !px-5 text-sm flex items-center gap-1.5 shrink-0 shadow-md">
+                            <span>Hitung</span>
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 7l5 5-5 5"/></svg>
+                        </button>
                     </div>
                 </div>
 
@@ -419,6 +468,84 @@
         </div>
     </section>
 
+    <!-- MODAL POPUP: KETERTARIKAN PENGGUNA (KALKULATOR > 3x) -->
+    <div id="interest-modal-overlay" 
+         class="opacity-0 pointer-events-none fixed inset-0 z-50 bg-slate-900/60 dark:bg-black/80 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300">
+        
+        <div id="interest-modal-card" 
+             class="scale-95 opacity-0 bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl border border-[#DFDCE3] dark:border-slate-800 text-center relative transform transition-all duration-300 ease-out">
+            
+            <!-- Close button -->
+            <button type="button" 
+                    onclick="closeInterestModal()" 
+                    class="absolute top-4 right-4 p-2 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-[#F4F3F6] dark:hover:bg-slate-800 transition-colors" 
+                    title="Tutup">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+
+            <!-- Top Animated Badge -->
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-tr from-[#4ABDAC] via-[#3ca092] to-[#F7B733] flex items-center justify-center shadow-lg shadow-[#4ABDAC]/30 mb-4 animate-bounce">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+                </svg>
+            </div>
+
+            <span class="inline-block px-3 py-1 rounded-full bg-[#eaf7f5] dark:bg-[#4ABDAC]/20 text-[#2e7e73] dark:text-[#4ABDAC] text-xs font-bold uppercase tracking-wider mb-2.5">
+                Kalkulator CatatUang
+            </span>
+
+            <h3 class="text-xl sm:text-2xl font-bold font-heading text-slate-900 dark:text-white leading-snug">
+                Sepertinya Anda tertarik dengan website kami! 🎉
+            </h3>
+
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-2.5 leading-relaxed">
+                Anda telah mencoba simulasi kalkulator anggaran lebih dari 3 kali. Ayo buat perencanaan finansial Anda menjadi nyata bersama CatatUang!
+            </p>
+
+            <!-- Value highlights -->
+            <div class="mt-4 p-3.5 rounded-2xl bg-[#F8F9FB] dark:bg-slate-800/80 border border-[#DFDCE3] dark:border-slate-700 text-left space-y-2 text-xs text-slate-600 dark:text-slate-300">
+                <div class="flex items-center gap-2">
+                    <span class="w-4 h-4 rounded-full bg-[#4ABDAC]/20 text-[#4ABDAC] flex items-center justify-center font-bold text-[10px]">✓</span>
+                    <span>Simpan simulasi aturan 50/30/20 pribadi Anda</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-4 h-4 rounded-full bg-[#F7B733]/20 text-[#c78600] dark:text-[#F7B733] flex items-center justify-center font-bold text-[10px]">✓</span>
+                    <span>Catat arus kas harian & evaluasi pengeluaran</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-4 h-4 rounded-full bg-[#FC4A1A]/20 text-[#FC4A1A] flex items-center justify-center font-bold text-[10px]">✓</span>
+                    <span>100% Gratis & tanpa komitmen biaya</span>
+                </div>
+            </div>
+
+            <!-- Countdown Progress -->
+            <div class="mt-5">
+                <div class="flex items-center justify-between text-[11px] text-slate-400 font-semibold mb-1.5">
+                    <span>Membuka form Masuk / Daftar...</span>
+                    <span id="interest-timer-text" class="text-[#4ABDAC] font-bold">3 detik</span>
+                </div>
+                <div class="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                    <div id="interest-progress-bar" class="bg-[#4ABDAC] h-full w-full"></div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-5 space-y-2">
+                <button type="button" 
+                        onclick="proceedToAuthFromInterest('register')" 
+                        class="btn-catat-primary w-full !py-3 !text-sm flex items-center justify-center gap-2 shadow-lg shadow-[#4ABDAC]/25">
+                    <span>Lanjut Masuk / Daftar Sekarang</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                </button>
+                <button type="button" 
+                        onclick="closeInterestModal()" 
+                        class="w-full py-2 text-xs font-semibold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition">
+                    Nanti Saja
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- SLIDE-OVER AUTH DRAWER (MODAL MASUK / DAFTAR) -->
     <div id="auth-drawer-overlay" 
          onclick="closeAuthDrawer()" 
@@ -449,6 +576,30 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                     </svg>
                 </button>
+            </div>
+
+            <!-- TAB SWITCHER MASUK / DAFTAR -->
+            <div class="grid grid-cols-2 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-[#DFDCE3] dark:border-slate-700 mt-4 mb-2">
+                <button type="button" 
+                        id="tab-login"
+                        onclick="switchToLogin()" 
+                        class="py-2 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 text-[#4ABDAC] bg-white dark:bg-slate-900 shadow-sm">
+                    Masuk
+                </button>
+                <button type="button" 
+                        id="tab-register"
+                        onclick="switchToRegister()" 
+                        class="py-2 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white">
+                    Daftar Akun
+                </button>
+            </div>
+
+            <!-- DYNAMIC CONTEXTUAL BANNER (Fitur / Kalkulator) -->
+            <div id="auth-context-banner" class="hidden mt-3 p-3.5 rounded-2xl bg-[#eaf7f5] dark:bg-[#4ABDAC]/15 border border-[#4ABDAC]/30 text-xs text-[#2e7e73] dark:text-[#4ABDAC] font-medium leading-relaxed">
+                <div class="flex items-start gap-2.5">
+                    <span class="text-base shrink-0">✨</span>
+                    <span id="auth-context-text">Sepertinya Anda tertarik dengan website kami! Silakan masuk atau daftar untuk melanjutkan.</span>
+                </div>
             </div>
 
             <!-- LOGIN BOX -->
@@ -616,18 +767,23 @@
         document.addEventListener('DOMContentLoaded', updateThemeIcons);
 
         // Drawer Auth (Masuk / Daftar)
-        function openAuthDrawer(mode) {
+        function openAuthDrawer(mode, context) {
             const drawer = document.getElementById('auth-drawer');
             const overlay = document.getElementById('auth-drawer-overlay');
-            const loginBox = document.getElementById('login-box');
-            const registerBox = document.getElementById('register-box');
+            const contextBanner = document.getElementById('auth-context-banner');
+            const contextText = document.getElementById('auth-context-text');
+
+            if (context && contextText && contextBanner) {
+                contextText.textContent = context;
+                contextBanner.classList.remove('hidden');
+            } else if (contextBanner) {
+                contextBanner.classList.add('hidden');
+            }
 
             if (mode === 'register') {
-                if (loginBox) loginBox.classList.add('hidden');
-                if (registerBox) registerBox.classList.remove('hidden');
+                switchToRegister();
             } else {
-                if (registerBox) registerBox.classList.add('hidden');
-                if (loginBox) loginBox.classList.remove('hidden');
+                switchToLogin();
             }
 
             if (overlay) {
@@ -645,6 +801,7 @@
         function closeAuthDrawer() {
             const drawer = document.getElementById('auth-drawer');
             const overlay = document.getElementById('auth-drawer-overlay');
+            const contextBanner = document.getElementById('auth-context-banner');
             if (drawer) {
                 drawer.classList.remove('translate-x-0', 'visible');
                 drawer.classList.add('translate-x-full', 'invisible');
@@ -655,13 +812,121 @@
                 overlay.classList.remove('opacity-100', 'pointer-events-auto');
                 overlay.classList.add('opacity-0', 'pointer-events-none');
             }
+            if (contextBanner) {
+                contextBanner.classList.add('hidden');
+            }
         }
 
-        function switchToLogin() { openAuthDrawer('login'); }
-        function switchToRegister() { openAuthDrawer('register'); }
+        function switchToLogin() {
+            const loginBox = document.getElementById('login-box');
+            const registerBox = document.getElementById('register-box');
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+
+            if (registerBox) registerBox.classList.add('hidden');
+            if (loginBox) loginBox.classList.remove('hidden');
+
+            if (tabLogin) {
+                tabLogin.className = 'py-2 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 text-[#4ABDAC] bg-white dark:bg-slate-900 shadow-sm';
+            }
+            if (tabRegister) {
+                tabRegister.className = 'py-2 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white';
+            }
+        }
+
+        function switchToRegister() {
+            const loginBox = document.getElementById('login-box');
+            const registerBox = document.getElementById('register-box');
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+
+            if (loginBox) loginBox.classList.add('hidden');
+            if (registerBox) registerBox.classList.remove('hidden');
+
+            if (tabRegister) {
+                tabRegister.className = 'py-2 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 text-[#4ABDAC] bg-white dark:bg-slate-900 shadow-sm';
+            }
+            if (tabLogin) {
+                tabLogin.className = 'py-2 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white';
+            }
+        }
+
+        function openAuthForFeature(featureName) {
+            openAuthDrawer('register', `🚀 Buka Fitur "${featureName}" — Silakan masuk atau buat akun baru gratis untuk mulai menggunakan fitur ini!`);
+        }
+
+        // Modal Ketertarikan (Interest Modal setelah > 3x penggunaan kalkulator)
+        let interestTimer = null;
+        let interestCountdownInterval = null;
+
+        function showInterestPopup() {
+            const overlay = document.getElementById('interest-modal-overlay');
+            const card = document.getElementById('interest-modal-card');
+            const timerText = document.getElementById('interest-timer-text');
+            const progressBar = document.getElementById('interest-progress-bar');
+
+            if (!overlay || !card) return;
+
+            let timeLeft = 3;
+            if (timerText) timerText.textContent = timeLeft + ' detik';
+            if (progressBar) {
+                progressBar.style.transition = 'none';
+                progressBar.style.width = '100%';
+                setTimeout(() => {
+                    progressBar.style.transition = 'width 3000ms linear';
+                    progressBar.style.width = '0%';
+                }, 40);
+            }
+
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            overlay.classList.add('opacity-100', 'pointer-events-auto');
+            card.classList.remove('scale-95', 'opacity-0');
+            card.classList.add('scale-100', 'opacity-100');
+            document.body.classList.add('overflow-hidden');
+
+            clearInterval(interestCountdownInterval);
+            interestCountdownInterval = setInterval(() => {
+                timeLeft--;
+                if (timerText) {
+                    timerText.textContent = timeLeft > 0 ? timeLeft + ' detik' : 'Mengarahkan...';
+                }
+                if (timeLeft <= 0) {
+                    clearInterval(interestCountdownInterval);
+                }
+            }, 1000);
+
+            clearTimeout(interestTimer);
+            interestTimer = setTimeout(() => {
+                proceedToAuthFromInterest('register');
+            }, 3200);
+        }
+
+        function closeInterestModal() {
+            clearTimeout(interestTimer);
+            clearInterval(interestCountdownInterval);
+            const overlay = document.getElementById('interest-modal-overlay');
+            const card = document.getElementById('interest-modal-card');
+            if (card) {
+                card.classList.remove('scale-100', 'opacity-100');
+                card.classList.add('scale-95', 'opacity-0');
+            }
+            if (overlay) {
+                overlay.classList.remove('opacity-100', 'pointer-events-auto');
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+            }
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function proceedToAuthFromInterest(mode) {
+            closeInterestModal();
+            openAuthDrawer(mode || 'register', '✨ Sepertinya Anda tertarik dengan website kami! Silakan masuk atau daftar untuk menyimpan simulasi anggaran 50/30/20 Anda.');
+        }
 
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeAuthDrawer();
+            if (e.key === 'Escape') {
+                closeAuthDrawer();
+                closeInterestModal();
+            }
         });
 
         // Kalkulator Anggaran 50/30/20
@@ -670,28 +935,57 @@
         const wantsResult = document.getElementById('wantsResult');
         const savingsResult = document.getElementById('savingsResult');
         const presetBtns = document.querySelectorAll('.preset-btn');
+        const calcUsageBadge = document.getElementById('calcUsageBadge');
+        const btnCalculateIncome = document.getElementById('btnCalculateIncome');
+
+        let calcUsageCount = parseInt(sessionStorage.getItem('catatuang_calc_usage') || '0', 10);
+        let lastCalculatedValue = incomeInput ? incomeInput.value : '10000000';
+
+        function updateCalcBadge() {
+            if (calcUsageBadge) {
+                calcUsageBadge.textContent = calcUsageCount;
+                if (calcUsageCount > 3) {
+                    calcUsageBadge.classList.remove('text-[#4ABDAC]');
+                    calcUsageBadge.classList.add('text-[#FC4A1A]');
+                }
+            }
+        }
+        updateCalcBadge();
+
+        function recordCalculatorUsage() {
+            calcUsageCount++;
+            sessionStorage.setItem('catatuang_calc_usage', calcUsageCount.toString());
+            updateCalcBadge();
+
+            // Jika digunakan LEBIH DARI 3 KALI (> 3)
+            if (calcUsageCount > 3) {
+                showInterestPopup();
+            }
+        }
 
         function formatRupiah(num) {
             return 'Rp ' + Math.round(num).toLocaleString('id-ID');
         }
 
-        function calculateBudget(income) {
+        function calculateBudget(income, isUserAction = false) {
             const val = parseFloat(income) || 0;
             if (needsResult) needsResult.textContent = formatRupiah(val * 0.50);
             if (wantsResult) wantsResult.textContent = formatRupiah(val * 0.30);
             if (savingsResult) savingsResult.textContent = formatRupiah(val * 0.20);
+
+            if (isUserAction) {
+                recordCalculatorUsage();
+            }
         }
 
-        if (incomeInput) {
-            incomeInput.addEventListener('input', (e) => calculateBudget(e.target.value));
-        }
-
+        // Tombol Preset
         presetBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const amount = btn.getAttribute('data-amount');
                 if (incomeInput) {
                     incomeInput.value = amount;
-                    calculateBudget(amount);
+                    lastCalculatedValue = amount;
+                    calculateBudget(amount, true);
                 }
                 presetBtns.forEach(b => {
                     b.classList.remove('bg-[#4ABDAC]', 'text-white', 'shadow-sm');
@@ -701,6 +995,39 @@
                 btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-700', 'dark:text-slate-300');
             });
         });
+
+        // Input Pengguna dengan debounce (agar ketikan nominal tidak memicu hitungan ganda per tombol ketik)
+        let inputDebounceTimer = null;
+        if (incomeInput) {
+            incomeInput.addEventListener('input', (e) => {
+                const val = e.target.value;
+                calculateBudget(val, false);
+
+                clearTimeout(inputDebounceTimer);
+                inputDebounceTimer = setTimeout(() => {
+                    if (val !== lastCalculatedValue && val.length > 0) {
+                        lastCalculatedValue = val;
+                        recordCalculatorUsage();
+                    }
+                }, 650);
+            });
+
+            incomeInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    clearTimeout(inputDebounceTimer);
+                    lastCalculatedValue = incomeInput.value;
+                    calculateBudget(incomeInput.value, true);
+                }
+            });
+        }
+
+        if (btnCalculateIncome && incomeInput) {
+            btnCalculateIncome.addEventListener('click', () => {
+                clearTimeout(inputDebounceTimer);
+                lastCalculatedValue = incomeInput.value;
+                calculateBudget(incomeInput.value, true);
+            });
+        }
     </script>
 </body>
 </html>
