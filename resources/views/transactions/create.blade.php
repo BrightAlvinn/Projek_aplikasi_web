@@ -1,113 +1,117 @@
-<!DOCTYPE html>
-<html lang="id" class="overflow-x-hidden">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catat Transaksi - CatatUang</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-slate-50 min-h-screen w-full max-w-full overflow-x-hidden text-slate-800 antialiased p-4 sm:p-6 md:p-8 flex justify-center items-start sm:items-center transition-all duration-300 ease-in-out">
+@extends('layouts.app')
 
-    <div class="w-full max-w-lg md:max-w-2xl bg-white p-5 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200 shadow-md transition-all duration-300 ease-in-out">
-        <!-- Header: tombol Kembali di atas judul pada mobile, di kanan pada layar lebar -->
-        <div class="flex flex-col-reverse sm:flex-row sm:items-start sm:justify-between gap-3 mb-5 md:mb-6 transition-all duration-300 ease-in-out">
-            <div class="min-w-0">
-                <h2 class="text-xl md:text-2xl font-bold text-slate-900 transition-all duration-300 ease-in-out">Catat Transaksi</h2>
-                <p class="text-xs md:text-sm text-slate-400 mt-0.5">Masukkan pemasukan atau pengeluaran baru</p>
-            </div>
-            <a href="{{ route('dashboard') }}" class="self-start shrink-0 inline-flex items-center gap-1 whitespace-nowrap px-3 py-1.5 -ml-3 sm:ml-0 rounded-lg text-xs font-semibold text-teal-600 hover:bg-teal-50 transition-all duration-300 ease-in-out">
-                <span aria-hidden="true">←</span> Kembali
-            </a>
-        </div>
+@section('title', 'Catat Transaksi')
+@section('page_title', 'Catat Transaksi Baru')
 
-        @if ($errors->any())
-            <div class="bg-red-50 border border-red-100 text-red-600 text-xs sm:text-sm p-3 rounded-xl mb-4 break-words">
-                {{ $errors->first() }}
-            </div>
-        @endif
+@section('content')
 
-        <form action="{{ route('transactions.store') }}" method="POST" class="w-full space-y-4 md:space-y-5">
-            @csrf
-
-            <!-- Jenis Transaksi -->
-            <fieldset>
-                <legend class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Jenis Transaksi</legend>
-                {{-- Radio asli disembunyikan (sr-only) dan tampil sebagai tombol pilihan, sehingga tidak lagi menabrak border kartu --}}
-                <div class="grid grid-cols-1 min-[360px]:grid-cols-2 gap-2.5 sm:gap-3 transition-all duration-300 ease-in-out">
-                    <label class="relative cursor-pointer min-w-0">
-                        <input type="radio" name="type" value="income" class="peer sr-only" {{ old('type') === 'income' ? 'checked' : '' }} required>
-                        <span class="flex items-center justify-center gap-2 w-full px-3 py-3 border-2 border-slate-200 rounded-xl text-sm font-semibold text-slate-500 text-center transition-all duration-300 ease-in-out hover:bg-teal-50 peer-checked:border-teal-500 peer-checked:bg-teal-50 peer-checked:text-teal-700 peer-focus-visible:ring-2 peer-focus-visible:ring-teal-500">
-                            <span class="w-2 h-2 shrink-0 rounded-full bg-teal-500"></span>
-                            <span>Pemasukan (+)</span>
-                        </span>
-                    </label>
-                    <label class="relative cursor-pointer min-w-0">
-                        <input type="radio" name="type" value="expense" class="peer sr-only" {{ old('type', 'expense') === 'expense' ? 'checked' : '' }} required>
-                        <span class="flex items-center justify-center gap-2 w-full px-3 py-3 border-2 border-slate-200 rounded-xl text-sm font-semibold text-slate-500 text-center transition-all duration-300 ease-in-out hover:bg-rose-50 peer-checked:border-rose-500 peer-checked:bg-rose-50 peer-checked:text-rose-700 peer-focus-visible:ring-2 peer-focus-visible:ring-rose-500">
-                            <span class="w-2 h-2 shrink-0 rounded-full bg-rose-500"></span>
-                            <span>Pengeluaran (-)</span>
-                        </span>
-                    </label>
+    <div class="max-w-2xl mx-auto">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-md p-6 sm:p-8 space-y-6 transition-colors">
+            
+            <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+                <div>
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Formulir Transaksi</h2>
+                    <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5">Catat arus kas masuk atau keluar keuangan Anda</p>
                 </div>
-            </fieldset>
-
-            <!-- Nominal -->
-            <div>
-                <label for="amount" class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Nominal (Rp)</label>
-                <div class="relative">
-                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 font-bold">Rp</span>
-                    <input type="number" id="amount" name="amount" inputmode="numeric" min="1" value="{{ old('amount') }}" placeholder="50000" required
-                        class="block w-full min-w-0 pl-12 pr-4 py-3 border border-slate-200 rounded-xl text-lg md:text-xl font-bold text-slate-900 placeholder:text-slate-300 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/30 transition-all duration-300 ease-in-out">
-                </div>
-            </div>
-
-            <!-- Kategori & Tanggal: bertumpuk di mobile, berdampingan di desktop -->
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 transition-all duration-300 ease-in-out">
-                <!-- Kategori -->
-                <div class="min-w-0">
-                    <label for="category_id" class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Kategori</label>
-                    <select id="category_id" name="category_id" required class="block w-full min-w-0 px-4 py-3 border border-slate-200 rounded-xl bg-white text-base sm:text-sm truncate focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/30 transition-all duration-300 ease-in-out">
-                        <option value="">-- Pilih Kategori --</option>
-                        @foreach($categories as $cat)
-                            <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
-                                [{{ strtoupper($cat->type === 'income' ? 'Masuk' : 'Keluar') }}] {{ $cat->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Tanggal -->
-                <div class="min-w-0">
-                    <label for="transaction_date" class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Tanggal</label>
-                    <input type="date" id="transaction_date" name="transaction_date" value="{{ old('transaction_date', date('Y-m-d')) }}" required
-                        class="block w-full min-w-0 max-w-full appearance-none px-4 py-3 border border-slate-200 rounded-xl bg-white text-base sm:text-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/30 transition-all duration-300 ease-in-out">
-                </div>
-            </div>
-
-            <!-- Keterangan -->
-            <div>
-                <label for="description" class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Keterangan</label>
-                <input type="text" id="description" name="description" value="{{ old('description') }}" placeholder="Contoh: Makan siang, Gaji kantor" required
-                    class="block w-full min-w-0 px-4 py-3 border border-slate-200 rounded-xl text-base sm:text-sm focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/30 transition-all duration-300 ease-in-out">
-            </div>
-
-            <!-- Catatan Opsional -->
-            <div>
-                <label for="notes" class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Catatan Tambahan <span class="normal-case font-medium text-slate-400">(Opsional)</span></label>
-                <textarea id="notes" name="notes" rows="3" placeholder="Catatan kecil..." class="block w-full min-w-0 px-4 py-3 border border-slate-200 rounded-xl text-base sm:text-sm resize-y focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/30 transition-all duration-300 ease-in-out">{{ old('notes') }}</textarea>
-            </div>
-
-            <!-- Aksi: bertumpuk di mobile (Simpan di atas), berdampingan di desktop -->
-            <div class="flex flex-col-reverse md:flex-row md:justify-end gap-2.5 md:gap-3 pt-1 transition-all duration-300 ease-in-out">
-                <a href="{{ route('dashboard') }}" class="w-full md:w-auto text-center px-6 py-3 rounded-xl border border-slate-200 text-sm font-semibold text-slate-600 hover:bg-slate-50 transition-all duration-300 ease-in-out">
-                    Batal
+                <a href="{{ route('transactions.index') }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span>Kembali</span>
                 </a>
-                <button type="submit" class="w-full md:w-auto px-8 py-3 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-xl shadow-sm transition-all duration-300 ease-in-out">
-                    Simpan Transaksi
-                </button>
             </div>
-        </form>
+
+            @if (isset($errors) && $errors->any())
+                <div class="bg-rose-50 dark:bg-rose-950/40 border border-rose-100 dark:border-rose-900 text-rose-600 dark:text-rose-400 text-xs sm:text-sm p-3.5 rounded-xl">
+                    {{ $errors->first() }}
+                </div>
+            @endif
+
+            <form action="{{ route('transactions.store') }}" method="POST" class="space-y-5">
+                @csrf
+
+                <!-- Jenis Transaksi -->
+                <fieldset>
+                    <legend class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Jenis Transaksi</legend>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="type" value="income" class="peer sr-only" {{ old('type', request('type')) === 'income' ? 'checked' : '' }} required>
+                            <span class="flex items-center justify-center gap-2 w-full px-4 py-3 border-2 border-slate-200 dark:border-slate-700 rounded-2xl text-sm font-bold text-slate-500 dark:text-slate-400 text-center transition hover:bg-teal-50/50 dark:hover:bg-teal-950/20 peer-checked:border-[#4ABDAC] peer-checked:bg-[#4ABDAC]/10 peer-checked:text-[#4ABDAC]">
+                                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                                <span>Pemasukan (+)</span>
+                            </span>
+                        </label>
+                        <label class="relative cursor-pointer">
+                            <input type="radio" name="type" value="expense" class="peer sr-only" {{ old('type', request('type', 'expense')) === 'expense' ? 'checked' : '' }} required>
+                            <span class="flex items-center justify-center gap-2 w-full px-4 py-3 border-2 border-slate-200 dark:border-slate-700 rounded-2xl text-sm font-bold text-slate-500 dark:text-slate-400 text-center transition hover:bg-rose-50/50 dark:hover:bg-rose-950/20 peer-checked:border-rose-500 peer-checked:bg-rose-50/20 dark:peer-checked:bg-rose-950/40 peer-checked:text-rose-600 dark:peer-checked:text-rose-400">
+                                <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
+                                <span>Pengeluaran (-)</span>
+                            </span>
+                        </label>
+                    </div>
+                </fieldset>
+
+                <!-- Nominal -->
+                <div>
+                    <label for="amount" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Nominal (Rp)</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 font-bold text-base">Rp</span>
+                        <input type="number" id="amount" name="amount" inputmode="numeric" min="1" value="{{ old('amount') }}" placeholder="50000" required
+                            class="block w-full pl-12 pr-4 py-3 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 rounded-xl text-lg sm:text-xl font-bold text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-[#4ABDAC] transition">
+                    </div>
+                </div>
+
+                <!-- Kategori & Tanggal -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="category_id" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Kategori</label>
+                        <select id="category_id" name="category_id" required
+                            class="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4ABDAC] transition">
+                            <option value="">Pilih Kategori</option>
+                            @foreach($categories as $cat)
+                                <option value="{{ $cat->id }}" {{ old('category_id') == $cat->id ? 'selected' : '' }}>
+                                    {{ $cat->name }} ({{ $cat->type === 'income' ? 'Masuk' : 'Keluar' }})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div>
+                        <label for="transaction_date" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Tanggal</label>
+                        <input type="date" id="transaction_date" name="transaction_date" value="{{ old('transaction_date', date('Y-m-d')) }}" required
+                            class="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm font-semibold text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#4ABDAC] transition">
+                    </div>
+                </div>
+
+                <!-- Deskripsi -->
+                <div>
+                    <label for="description" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Deskripsi Singkat</label>
+                    <input type="text" id="description" name="description" value="{{ old('description') }}" placeholder="Misal: Makan Siang, Bensin, Gaji Bulanan..." required
+                        class="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4ABDAC] transition">
+                </div>
+
+                <!-- Catatan Tambahan (Opsional) -->
+                <div>
+                    <label for="notes" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Catatan Tambahan (Opsional)</label>
+                    <textarea id="notes" name="notes" rows="2" placeholder="Keterangan atau rincian opsional..."
+                        class="block w-full px-4 py-3 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 rounded-xl text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#4ABDAC] transition">{{ old('notes') }}</textarea>
+                </div>
+
+                <!-- Tombol Submit -->
+                <div class="pt-2 flex items-center justify-end gap-3">
+                    <a href="{{ route('transactions.index') }}" class="px-5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition">
+                        Batal
+                    </a>
+                    <button type="submit" class="px-6 py-2.5 rounded-xl bg-[#4ABDAC] hover:bg-[#3ca092] text-white text-xs sm:text-sm font-bold shadow-md shadow-[#4ABDAC]/20 transition flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        <span>Simpan Transaksi</span>
+                    </button>
+                </div>
+            </form>
+
+        </div>
     </div>
 
-</body>
-</html>
+@endsection

@@ -22,14 +22,74 @@ class TransactionController extends Controller
             $query->where('type', $request->type);
         }
 
+        // Filter kategori
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        // Filter tanggal
+        if ($request->filled('date')) {
+            $query->whereDate('transaction_date', $request->date);
+        }
+
         // Filter pencarian keterangan
         if ($request->filled('search')) {
             $query->where('description', 'like', '%' . $request->search . '%');
         }
 
-        $transactions = $query->paginate(10)->withQueryString();
+        $transactions = $query->paginate(15)->withQueryString();
+        $categories = Category::all();
 
-        return view('transactions.index', compact('transactions'));
+        return view('transactions.index', compact('transactions', 'categories'));
+    }
+
+    /**
+     * Ekspor data transaksi ke format CSV.
+     */
+    public function exportCsv(Request $request)
+    {
+        $query = Transaction::with('category')->latest('transaction_date')->latest('id');
+
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+        if ($request->filled('date')) {
+            $query->whereDate('transaction_date', $request->date);
+        }
+        if ($request->filled('search')) {
+            $query->where('description', 'like', '%' . $request->search . '%');
+        }
+
+        $transactions = $query->get();
+
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="transaksi_catatuang_' . date('Ymd_His') . '.csv"',
+        ];
+
+        $callback = function () use ($transactions) {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['ID', 'Tanggal', 'Tipe', 'Kategori', 'Deskripsi', 'Nominal', 'Catatan']);
+
+            foreach ($transactions as $t) {
+                fputcsv($file, [
+                    $t->id,
+                    $t->transaction_date ? $t->transaction_date->format('Y-m-d') : '',
+                    $t->type === 'income' ? 'Pemasukan' : 'Pengeluaran',
+                    $t->category?->name ?? 'Umum',
+                    $t->description,
+                    $t->amount,
+                    $t->notes ?? '',
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
 
     /**
