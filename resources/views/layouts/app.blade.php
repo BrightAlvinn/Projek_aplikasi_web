@@ -57,8 +57,27 @@
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-heading { font-family: 'Manrope', sans-serif; }
+
+        /* Efek geser: sidebar masuk & halaman bergeser ke samping */
+        #sidebarDrawer {
+            transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        #appShell {
+            transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+                        margin-left 420ms cubic-bezier(0.22, 1, 0.36, 1),
+                        box-shadow 420ms ease;
+        }
+        #appShell.is-shifted {
+            box-shadow: -18px 0 40px -20px rgba(15, 23, 42, 0.25);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            #sidebarDrawer,
+            #appShell { transition: none; }
+        }
+
         @media print {
             header, aside, #sidebarOverlay, .no-print { display: none !important; }
+            #appShell { transform: none !important; margin-left: 0 !important; }
             main { padding: 0 !important; max-width: 100% !important; }
             body { background: white !important; color: black !important; }
         }
@@ -69,12 +88,13 @@
     <!-- ======================================================== -->
     <!-- 1. SLIDE-OUT SIDEBAR (DRAWER) & BACKDROP                 -->
     <!-- ======================================================== -->
-    <div id="sidebarOverlay" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-40 hidden transition-opacity duration-300 opacity-0 no-print" aria-hidden="true"></div>
+    <!-- Overlay transparan: tidak menggelapkan layar, hanya menangkap klik/tap untuk menutup menu -->
+    <div id="sidebarOverlay" class="fixed inset-0 z-40 hidden bg-transparent no-print" aria-hidden="true"></div>
 
-    <aside id="sidebarDrawer" class="fixed top-0 left-0 bottom-0 z-50 w-72 sm:w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col justify-between transform -translate-x-full transition-transform duration-300 ease-in-out no-print" aria-label="Menu Utama CATATUANG">
+    <aside id="sidebarDrawer" class="fixed top-0 left-0 bottom-0 z-50 w-[85vw] max-w-[20rem] sm:w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between transform -translate-x-full no-print" aria-label="Menu Utama CATATUANG" aria-hidden="true">
         
         <!-- Top Section Sidebar -->
-        <div class="p-5 sm:p-6 space-y-6 overflow-y-auto">
+        <div class="flex-1 min-h-0 p-5 sm:p-6 space-y-6 overflow-y-auto">
             <!-- Brand Logo & Close Button -->
             <div class="flex items-center justify-between">
                 <a href="{{ route('dashboard') }}" class="flex items-center gap-3 group">
@@ -144,7 +164,7 @@
         </div>
 
         <!-- Sidebar Bottom: USER PROFILE CARD (Diubah dari "Database Aktif" ke "Profil User") -->
-        <div class="p-4 m-3 sm:m-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 space-y-3">
+        <div class="shrink-0 p-4 m-3 sm:m-4 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/90 dark:border-slate-700/80 space-y-3">
             <a href="{{ route('profile') }}" class="block p-2.5 rounded-xl hover:bg-white dark:hover:bg-slate-800 hover:shadow-xs border border-transparent hover:border-slate-200 dark:hover:border-slate-700 transition group" title="Buka Profil Pengguna">
                 <div class="flex items-center gap-3">
                     <div class="relative shrink-0">
@@ -180,6 +200,9 @@
     </aside>
 
 
+    <!-- Pembungkus halaman: digeser ke samping saat sidebar dibuka -->
+    <div id="appShell" class="min-h-screen bg-[#F8F9FB] dark:bg-slate-950">
+
     <!-- ======================================================== -->
     <!-- 2. TOP HEADER NAVBAR                                     -->
     <!-- (Garis tiga di ujung kiri, Brand CATATUANG, Theme, Date) -->
@@ -190,7 +213,7 @@
             <!-- Left Side: Hamburger (garis tiga pada ujung kiri) + Brand CATATUANG + Page Title -->
             <div class="flex items-center gap-3 min-w-0">
                 <!-- Hamburger Button (Garis Tiga pada Ujung Kiri) -->
-                <button id="sidebarOpenBtn" type="button" class="p-2 -ml-1 rounded-xl text-slate-700 dark:text-slate-200 hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs transition shrink-0" aria-label="Buka menu slide" title="Buka Menu Navigasi">
+                <button id="sidebarOpenBtn" type="button" aria-controls="sidebarDrawer" aria-expanded="false" class="p-2 -ml-1 rounded-xl text-slate-700 dark:text-slate-200 hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs transition shrink-0" aria-label="Buka menu slide" title="Buka Menu Navigasi">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -213,7 +236,7 @@
             </div>
 
             <!-- Right Side: Theme Switcher (Kiri dari Tanggal) + Real-time Date Badge -->
-            <div class="flex items-center gap-2.5 shrink-0">
+            <div class="flex items-center gap-2 sm:gap-2.5 shrink-0">
                 
                 <!-- THEME TOGGLE BUTTON (Dark / Light Mode) SAMA SEPERTI DI LANDING PAGE -->
                 <button type="button" onclick="toggleTheme()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-[#4ABDAC] dark:hover:text-[#4ABDAC] transition shadow-xs" title="Ganti Mode Gelap / Terang" aria-label="Ganti Tema">
@@ -228,7 +251,7 @@
                 </button>
 
                 <!-- Date Badge (Real-time Date) -->
-                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold shadow-2xs">
+                <div class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 text-xs font-semibold shadow-2xs">
                     <svg class="w-4 h-4 text-[#4ABDAC]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
@@ -274,6 +297,9 @@
         @yield('content')
     </main>
 
+    </div>
+    <!-- /appShell -->
+
 
     <!-- ======================================================== -->
     <!-- 4. GLOBAL THEME & SLIDE DRAWER JAVASCRIPT               -->
@@ -297,33 +323,90 @@
         }
         document.addEventListener('DOMContentLoaded', updateThemeIcons);
 
-        // --- Slide-Out Sidebar Drawer Logic ---
+        // --- Slide-Out Sidebar Logic ---
+        // Tablet/desktop (>= 768px): konten menyusut mengisi sisa ruang di samping sidebar (tidak terpotong).
+        // Mobile (< 768px): halaman didorong ke samping (push), tap area halaman untuk menutup.
         const sidebarDrawer = document.getElementById('sidebarDrawer');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const sidebarOpenBtn = document.getElementById('sidebarOpenBtn');
         const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+        const appShell = document.getElementById('appShell');
+        const SIDEBAR_TRANSITION_MS = 420;
+        const DOCKED_SIDEBAR_QUERY = window.matchMedia('(min-width: 768px)');
+        let isSidebarOpen = false;
+        let sidebarResetTimer = null;
+
+        function notifyLayoutChange() {
+            // Beri tahu Chart.js dkk. agar menyesuaikan ukuran setelah lebar konten berubah
+            setTimeout(() => window.dispatchEvent(new Event('resize')), SIDEBAR_TRANSITION_MS + 20);
+        }
+
+        function applyOpenLayout() {
+            const sidebarWidth = sidebarDrawer.offsetWidth;
+
+            if (DOCKED_SIDEBAR_QUERY.matches) {
+                appShell.style.transform = '';
+                appShell.style.marginLeft = `${sidebarWidth}px`;
+                appShell.classList.remove('is-shifted');
+                sidebarOverlay.classList.add('hidden');
+                document.body.classList.remove('overflow-hidden');
+            } else {
+                appShell.style.marginLeft = '';
+                appShell.style.transform = `translateX(${sidebarWidth}px)`;
+                appShell.classList.add('is-shifted');
+                sidebarOverlay.classList.remove('hidden');
+                document.body.classList.add('overflow-hidden');
+            }
+        }
 
         function openSidebar() {
-            sidebarOverlay.classList.remove('hidden');
-            setTimeout(() => {
-                sidebarOverlay.classList.remove('opacity-0');
-                sidebarDrawer.classList.remove('-translate-x-full');
-            }, 10);
-            document.body.classList.add('overflow-hidden');
+            clearTimeout(sidebarResetTimer);
+            isSidebarOpen = true;
+            sidebarDrawer.classList.remove('-translate-x-full');
+            sidebarDrawer.setAttribute('aria-hidden', 'false');
+            sidebarOpenBtn?.setAttribute('aria-expanded', 'true');
+            applyOpenLayout();
+            notifyLayoutChange();
         }
 
         function closeSidebar() {
+            if (!isSidebarOpen) return;
+            isSidebarOpen = false;
             sidebarDrawer.classList.add('-translate-x-full');
-            sidebarOverlay.classList.add('opacity-0');
-            setTimeout(() => {
-                sidebarOverlay.classList.add('hidden');
-            }, 300);
+            sidebarDrawer.setAttribute('aria-hidden', 'true');
+            sidebarOpenBtn?.setAttribute('aria-expanded', 'false');
+            sidebarOverlay.classList.add('hidden');
+            appShell.classList.remove('is-shifted');
+            if (appShell.style.transform) {
+                appShell.style.transform = 'translateX(0)';
+            }
+            if (appShell.style.marginLeft) {
+                appShell.style.marginLeft = '0px';
+            }
             document.body.classList.remove('overflow-hidden');
+
+            // Bersihkan style setelah animasi agar elemen position:fixed di dalam halaman (modal, dll.) tetap normal
+            sidebarResetTimer = setTimeout(() => {
+                appShell.style.transform = '';
+                appShell.style.marginLeft = '';
+            }, SIDEBAR_TRANSITION_MS);
+            notifyLayoutChange();
         }
 
-        if (sidebarOpenBtn) sidebarOpenBtn.addEventListener('click', openSidebar);
+        function toggleSidebar() {
+            isSidebarOpen ? closeSidebar() : openSidebar();
+        }
+
+        if (sidebarOpenBtn) sidebarOpenBtn.addEventListener('click', toggleSidebar);
         if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
         if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
+
+        DOCKED_SIDEBAR_QUERY.addEventListener('change', () => {
+            if (isSidebarOpen) applyOpenLayout();
+        });
+        window.addEventListener('resize', (e) => {
+            if (isSidebarOpen && e.isTrusted) applyOpenLayout();
+        });
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeSidebar();
