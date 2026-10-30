@@ -51,6 +51,9 @@
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
         .font-heading { font-family: 'Manrope', sans-serif; }
@@ -324,6 +327,49 @@
 
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeSidebar();
+        });
+    </script>
+
+    <!-- SweetAlert2 Pop Up Notifications -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const isDark = document.documentElement.classList.contains('dark');
+            const popupBg = isDark ? '#0f172a' : '#ffffff';
+            const textColor = isDark ? '#f1f5f9' : '#1e293b';
+
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil Masuk!',
+                    text: "{{ session('success') }}",
+                    background: popupBg,
+                    color: textColor,
+                    confirmButtonColor: '#4ABDAC',
+                    confirmButtonText: 'Lanjutkan',
+                    timer: 3500,
+                    timerProgressBar: true,
+                    customClass: {
+                        popup: 'rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl',
+                        confirmButton: 'rounded-xl font-bold px-6 py-2.5 text-sm shadow-md shadow-[#4ABDAC]/25'
+                    }
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Pemberitahuan',
+                    text: "{{ session('error') }}",
+                    background: popupBg,
+                    color: textColor,
+                    confirmButtonColor: '#FC4A1A',
+                    confirmButtonText: 'Tutup',
+                    customClass: {
+                        popup: 'rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl',
+                        confirmButton: 'rounded-xl font-bold px-6 py-2.5 text-sm shadow-md shadow-[#FC4A1A]/25'
+                    }
+                });
+            @endif
         });
     </script>
 

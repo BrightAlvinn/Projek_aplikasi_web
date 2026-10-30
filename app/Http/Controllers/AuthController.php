@@ -19,23 +19,45 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'string'],
             'password' => ['required', 'string'],
+        ], [
+            'email.required' => 'Email atau Username wajib diisi.',
+            'password.required' => 'Kata sandi wajib diisi.',
         ]);
 
         $remember = $request->boolean('remember');
+        $loginInput = trim($credentials['email']);
 
         // Mendukung login via Email maupun Username (name)
-        $fieldType = filter_var($credentials['email'], FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $fieldType = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
-        if (Auth::attempt([$fieldType => $credentials['email'], 'password' => $credentials['password']], $remember)) {
-            $request->session()->regenerate();
+        // Cek apakah akun terdaftar berdasarkan Username atau Email
+        $user = User::where($fieldType, $loginInput)->first();
 
-            return redirect()->intended(route('dashboard'))
-                ->with('success', 'Selamat datang kembali, ' . Auth::user()->name . '!');
+        if (! $user) {
+            return back()
+                ->withInput($request->only('email'))
+                ->with('error', 'Username atau Email tidak terdaftar dalam sistem!')
+                ->withErrors([
+                    'email' => 'Username atau Email tidak terdaftar.',
+                ]);
         }
 
-        throw ValidationException::withMessages([
-            'email' => 'Email atau kata sandi yang Anda masukkan salah.',
-        ]);
+        // Cek apakah kata sandi cocok
+        if (! Hash::check($credentials['password'], $user->password)) {
+            return back()
+                ->withInput($request->only('email'))
+                ->with('error', 'Kata sandi yang Anda masukkan salah!')
+                ->withErrors([
+                    'password' => 'Kata sandi tidak sesuai dengan akun ini.',
+                ]);
+        }
+
+        // Login pengguna
+        Auth::login($user, $remember);
+        $request->session()->regenerate();
+
+        return redirect()->intended(route('dashboard'))
+            ->with('success', 'Selamat datang kembali, ' . Auth::user()->name . '!');
     }
 
     /**
@@ -61,26 +83,6 @@ class AuthController extends Controller
 
         return redirect()->route('dashboard')
             ->with('success', 'Akun berhasil didaftarkan! Selamat datang.');
-    }
-
-    /**
-     * Tombol Demo / Cepat (opsional untuk presentasi tugas kelompok).
-     */
-    public function googleLogin(Request $request): RedirectResponse
-    {
-        $demoUser = User::firstOrCreate(
-            ['email' => 'demo@fintrack.test'],
-            [
-                'name' => 'Demo User',
-                'password' => Hash::make('password'),
-            ]
-        );
-
-        Auth::login($demoUser);
-        $request->session()->regenerate();
-
-        return redirect()->route('dashboard')
-            ->with('success', 'Berhasil masuk dengan akun Demo!');
     }
 
     /**

@@ -23,6 +23,9 @@
 
     <!-- Tailwind CSS Play CDN (agar langsung berwarna tanpa build jika Vite belum siap) -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -609,6 +612,19 @@
                     <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Masukkan kredensial Anda untuk melanjutkan ke dashboard CatatUang.</p>
                 </div>
 
+                {{-- Alert Banner jika gagal login --}}
+                @if (session('error') || ($errors->any() && !old('name')))
+                    <div class="mb-4 p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-300 flex items-start gap-2.5">
+                        <svg class="w-4 h-4 text-rose-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="min-w-0">
+                            <p class="font-bold text-rose-800 dark:text-rose-200">Gagal Masuk!</p>
+                            <p class="text-[11px] mt-0.5 leading-relaxed">{{ session('error') ?? ($errors->first('password') ?? ($errors->first('email') ?? $errors->first())) }}</p>
+                        </div>
+                    </div>
+                @endif
+
                 <form action="{{ Route::has('login.post') ? route('login.post') : '#' }}" method="POST" class="w-full space-y-4">
                     @csrf
                     <div>
@@ -617,10 +633,17 @@
                             type="text" 
                             name="email" 
                             id="login-email" 
+                            value="{{ old('email') }}"
                             required 
-                            placeholder="nama@email.com"
-                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
+                            placeholder="nama@email.com atau username"
+                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border @error('email') border-rose-500 ring-2 ring-rose-500/20 @else border-[#DFDCE3] dark:border-slate-700 @enderror text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
                         >
+                        @error('email')
+                            <p class="mt-1.5 text-xs text-rose-500 font-semibold flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                                <span>{{ $message }}</span>
+                            </p>
+                        @enderror
                     </div>
 
                     <div>
@@ -631,8 +654,14 @@
                             id="login-password" 
                             required 
                             placeholder="Kata Sandi Anda"
-                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
+                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border @error('password') border-rose-500 ring-2 ring-rose-500/20 @else border-[#DFDCE3] dark:border-slate-700 @enderror text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
                         >
+                        @error('password')
+                            <p class="mt-1.5 text-xs text-rose-500 font-semibold flex items-center gap-1">
+                                <svg class="w-3.5 h-3.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                                <span>{{ $message }}</span>
+                            </p>
+                        @enderror
                     </div>
 
                     <button type="submit" class="btn-catat-primary w-full text-center">
@@ -655,6 +684,18 @@
                     <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Buat akun CatatUang untuk mulai mencatat keuangan Anda.</p>
                 </div>
 
+                @if ($errors->any() && old('name'))
+                    <div class="mb-4 p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-xs text-rose-700 dark:text-rose-300 flex items-start gap-2.5">
+                        <svg class="w-4 h-4 text-rose-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <div class="min-w-0">
+                            <p class="font-bold text-rose-800 dark:text-rose-200">Pendaftaran Gagal!</p>
+                            <p class="text-[11px] mt-0.5 leading-relaxed">{{ $errors->first() }}</p>
+                        </div>
+                    </div>
+                @endif
+
                 <form action="{{ Route::has('register.post') ? route('register.post') : '#' }}" method="POST" class="w-full space-y-3.5">
                     @csrf
                     <div>
@@ -663,10 +704,14 @@
                             type="text" 
                             name="name" 
                             id="reg-name" 
+                            value="{{ old('name') }}"
                             required 
                             placeholder="Nama Lengkap Anda"
-                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
+                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border @error('name') border-rose-500 ring-2 ring-rose-500/20 @else border-[#DFDCE3] dark:border-slate-700 @enderror text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
                         >
+                        @error('name')
+                            <p class="mt-1 text-xs text-rose-500 font-semibold">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
@@ -675,10 +720,14 @@
                             type="email" 
                             name="email" 
                             id="reg-email" 
+                            value="{{ old('email') }}"
                             required 
                             placeholder="nama@email.com"
-                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
+                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border @error('email') border-rose-500 ring-2 ring-rose-500/20 @else border-[#DFDCE3] dark:border-slate-700 @enderror text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
                         >
+                        @error('email')
+                            <p class="mt-1 text-xs text-rose-500 font-semibold">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
@@ -689,8 +738,11 @@
                             id="reg-password" 
                             required 
                             placeholder="Minimal 6 karakter"
-                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
+                            class="block w-full min-w-0 px-4 py-3 sm:py-2.5 rounded-xl bg-white dark:bg-slate-950 border @error('password') border-rose-500 ring-2 ring-rose-500/20 @else border-[#DFDCE3] dark:border-slate-700 @enderror text-slate-800 dark:text-white text-base sm:text-sm focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all duration-300 ease-in-out"
                         >
+                        @error('password')
+                            <p class="mt-1 text-xs text-rose-500 font-semibold">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>
@@ -1028,6 +1080,77 @@
                 calculateBudget(incomeInput.value, true);
             });
         }
+
+        // --- Handle URL query (?auth=login atau ?auth=register) ---
+        const authParam = new URLSearchParams(window.location.search).get('auth');
+        if (authParam === 'login') {
+            openAuthDrawer('login');
+        } else if (authParam === 'register') {
+            openAuthDrawer('register');
+        }
+
+        // --- SweetAlert2 Pop Up Notifications ---
+        document.addEventListener('DOMContentLoaded', function () {
+            const isDark = document.documentElement.classList.contains('dark');
+            const popupBg = isDark ? '#0f172a' : '#ffffff';
+            const textColor = isDark ? '#f1f5f9' : '#1e293b';
+
+            @if ($errors->any() || session('error'))
+                // Otomatis buka drawer yang sesuai dengan jenis kesalahan
+                @if ($errors->has('name') || $errors->has('password_confirmation') || old('name'))
+                    openAuthDrawer('register');
+                    const errTitle = 'Pendaftaran Gagal!';
+                    const errMsg = "{{ $errors->first() ?? session('error') }}";
+                @else
+                    openAuthDrawer('login');
+                    const errTitle = 'Gagal Masuk!';
+                    const errMsg = "{{ session('error') ?? ($errors->first('password') ?? ($errors->first('email') ?? $errors->first())) }}";
+                @endif
+
+                Swal.fire({
+                    icon: 'error',
+                    title: errTitle,
+                    text: errMsg,
+                    background: popupBg,
+                    color: textColor,
+                    confirmButtonColor: '#FC4A1A',
+                    confirmButtonText: 'Periksa Kembali',
+                    customClass: {
+                        popup: 'rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl',
+                        confirmButton: 'rounded-xl font-bold px-6 py-2.5 text-sm shadow-md shadow-[#FC4A1A]/25'
+                    }
+                }).then(() => {
+                    @if ($errors->has('password'))
+                        const passInput = document.getElementById('login-password');
+                        if (passInput) passInput.focus();
+                    @elseif ($errors->has('email') || session('error'))
+                        const emailInput = document.getElementById('login-email');
+                        if (emailInput) {
+                            emailInput.focus();
+                            emailInput.select();
+                        }
+                    @endif
+                });
+            @endif
+
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    background: popupBg,
+                    color: textColor,
+                    confirmButtonColor: '#4ABDAC',
+                    confirmButtonText: 'Oke',
+                    timer: 3500,
+                    timerProgressBar: true,
+                    customClass: {
+                        popup: 'rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl',
+                        confirmButton: 'rounded-xl font-bold px-6 py-2.5 text-sm shadow-md shadow-[#4ABDAC]/25'
+                    }
+                });
+            @endif
+        });
     </script>
 </body>
 </html>

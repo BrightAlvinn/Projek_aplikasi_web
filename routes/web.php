@@ -19,12 +19,11 @@ Route::get('/landing', function () {
 
 // Rute Autentikasi Publik
 Route::get('login', function () {
-    return redirect()->route('landing');
+    return redirect()->route('landing', ['auth' => 'login']);
 })->name('login');
 Route::post('login', [AuthController::class, 'login'])->name('login.post');
 Route::post('register', [AuthController::class, 'register'])->name('register.post');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('auth/google', [AuthController::class, 'googleLogin'])->name('auth.google');
 
 
 // Rute yang Memerlukan Login (Dilindungi Middleware Auth)
