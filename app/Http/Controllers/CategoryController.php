@@ -10,16 +10,18 @@ use Illuminate\View\View;
 class CategoryController extends Controller
 {
     /**
-     * Tampilkan halaman Manajemen Kategori (Pengeluaran dan Pemasukan).
+     * Tampilkan halaman Manajemen Kategori milik pengguna yang login.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
-        $expenseCategories = Category::expense()
+        $expenseCategories = $request->user()->categories()
+            ->expense()
             ->withCount('transactions')
             ->orderBy('name')
             ->get();
 
-        $incomeCategories = Category::income()
+        $incomeCategories = $request->user()->categories()
+            ->income()
             ->withCount('transactions')
             ->orderBy('name')
             ->get();
@@ -28,7 +30,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Simpan kategori baru.
+     * Simpan kategori baru untuk pengguna yang login.
      */
     public function store(Request $request): RedirectResponse
     {
@@ -39,20 +41,26 @@ class CategoryController extends Controller
             'icon' => ['nullable', 'string', 'max:50'],
         ]);
 
+        if ($request->user()->categories()->where('name', $validated['name'])->where('type', $validated['type'])->exists()) {
+            return redirect()->route('categories.index')->with('error', 'Kategori dengan nama dan jenis yang sama sudah ada.');
+        }
+
         if (empty($validated['color'])) {
             $validated['color'] = $validated['type'] === 'income' ? '#10b981' : '#ef4444';
         }
 
-        Category::create($validated);
+        $request->user()->categories()->create($validated);
 
         return redirect()->route('categories.index')->with('success', 'Kategori baru berhasil ditambahkan!');
     }
 
     /**
-     * Perbarui data kategori.
+     * Perbarui data kategori milik pengguna yang login.
      */
     public function update(Request $request, Category $category): RedirectResponse
     {
+        $this->ensureOwnedByUser($request, $category);
+
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:100'],
             'type' => ['required', 'in:income,expense'],
@@ -65,10 +73,12 @@ class CategoryController extends Controller
     }
 
     /**
-     * Hapus kategori.
+     * Hapus kategori milik pengguna yang login.
      */
-    public function destroy(Category $category): RedirectResponse
+    public function destroy(Request $request, Category $category): RedirectResponse
     {
+        $this->ensureOwnedByUser($request, $category);
+
         if ($category->transactions()->exists()) {
             return redirect()->route('categories.index')->with('error', 'Kategori tidak dapat dihapus karena masih digunakan pada data transaksi.');
         }
@@ -76,5 +86,13 @@ class CategoryController extends Controller
         $category->delete();
 
         return redirect()->route('categories.index')->with('success', 'Kategori berhasil dihapus!');
+    }
+
+    /**
+     * Pastikan kategori benar-benar milik pengguna yang login.
+     */
+    private function ensureOwnedByUser(Request $request, Category $category): void
+    {
+        abort_unless($category->user_id === $request->user()->id, 404);
     }
 }

@@ -14,6 +14,7 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'category_id',
         'type',
         'amount',
@@ -29,6 +30,11 @@ class Transaction extends Model
             'amount' => 'decimal:2',
             'transaction_date' => 'date',
         ];
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function category(): BelongsTo

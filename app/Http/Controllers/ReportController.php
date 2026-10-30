@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
-use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,10 +10,11 @@ use Illuminate\View\View;
 class ReportController extends Controller
 {
     /**
-     * Tampilkan halaman Laporan & Analitik Keuangan.
+     * Tampilkan halaman Laporan & Analitik Keuangan milik pengguna yang login.
      */
     public function index(Request $request): View
     {
+        $user = $request->user();
         $now = Carbon::now();
         $selectedMonth = (int) $request->input('month', $now->month);
         $selectedYear = (int) $request->input('year', $now->year);
@@ -25,16 +24,16 @@ class ReportController extends Controller
         $daysInMonth = $startDate->daysInMonth;
 
         // 1. Akumulasi Saldo Total (Keseluruhan Waktu)
-        $allIncome = (float) Transaction::income()->sum('amount');
-        $allExpense = (float) Transaction::expense()->sum('amount');
+        $allIncome = (float) $user->transactions()->income()->sum('amount');
+        $allExpense = (float) $user->transactions()->expense()->sum('amount');
         $totalBalance = $allIncome - $allExpense;
 
         // 2. Metrik Periode Terpilih
-        $periodIncome = (float) Transaction::income()
+        $periodIncome = (float) $user->transactions()->income()
             ->whereBetween('transaction_date', [$startDate->toDateString(), $endDate->toDateString()])
             ->sum('amount');
 
-        $periodExpense = (float) Transaction::expense()
+        $periodExpense = (float) $user->transactions()->expense()
             ->whereBetween('transaction_date', [$startDate->toDateString(), $endDate->toDateString()])
             ->sum('amount');
 
@@ -46,7 +45,7 @@ class ReportController extends Controller
         $dailyExpenseData = [];
 
         // Ambil transaksi harian yang diagregasi
-        $dailyTransactions = Transaction::select(
+        $dailyTransactions = $user->transactions()->select(
                 DB::raw('DATE(transaction_date) as t_date'),
                 'type',
                 DB::raw('SUM(amount) as total')
@@ -73,7 +72,7 @@ class ReportController extends Controller
         }
 
         // 4. Detail Pemasukan per Kategori
-        $incomeBreakdown = Transaction::query()
+        $incomeBreakdown = $user->transactions()
             ->select('category_id', DB::raw('SUM(amount) as total_amount'))
             ->where('type', 'income')
             ->whereBetween('transaction_date', [$startDate->toDateString(), $endDate->toDateString()])
@@ -92,7 +91,7 @@ class ReportController extends Controller
             ->values();
 
         // 5. Detail Pengeluaran per Kategori
-        $expenseBreakdown = Transaction::query()
+        $expenseBreakdown = $user->transactions()
             ->select('category_id', DB::raw('SUM(amount) as total_amount'))
             ->where('type', 'expense')
             ->whereBetween('transaction_date', [$startDate->toDateString(), $endDate->toDateString()])

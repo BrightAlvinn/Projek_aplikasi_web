@@ -6,16 +6,17 @@ use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class TransactionController extends Controller
 {
     /**
-     * Tampilkan riwayat semua transaksi.
+     * Tampilkan riwayat semua transaksi milik pengguna yang login.
      */
     public function index(Request $request): View
     {
-        $query = Transaction::with('category')->latest('transaction_date')->latest('id');
+        $query = $request->user()->transactions()->with('category')->latest('transaction_date')->latest('id');
 
         // Filter tipe (income / expense)
         if ($request->filled('type')) {
@@ -38,17 +39,17 @@ class TransactionController extends Controller
         }
 
         $transactions = $query->paginate(15)->withQueryString();
-        $categories = Category::all();
+        $categories = $request->user()->categories()->get();
 
         return view('transactions.index', compact('transactions', 'categories'));
     }
 
     /**
-     * Ekspor data transaksi ke format CSV.
+     * Ekspor data transaksi milik pengguna yang login ke format CSV.
      */
     public function exportCsv(Request $request)
     {
-        $query = Transaction::with('category')->latest('transaction_date')->latest('id');
+        $query = $request->user()->transactions()->with('category')->latest('transaction_date')->latest('id');
 
         if ($request->filled('type')) {
             $query->where('type', $request->type);
@@ -95,27 +96,30 @@ class TransactionController extends Controller
     /**
      * Tampilkan form catat transaksi baru.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        $categories = Category::all();
+        $categories = $request->user()->categories()->get();
         return view('transactions.create', compact('categories'));
     }
 
     /**
-     * Simpan transaksi baru ke database.
+     * Simpan transaksi baru ke database milik pengguna yang login.
      */
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
             'type' => ['required', 'in:income,expense'],
             'amount' => ['required', 'numeric', 'min:1'],
-            'category_id' => ['required', 'exists:categories,id'],
+            'category_id' => [
+                'required',
+                Rule::exists('categories', 'id')->where('user_id', $request->user()->id),
+            ],
             'transaction_date' => ['required', 'date'],
             'description' => ['required', 'string', 'max:255'],
             'notes' => ['nullable', 'string'],
         ]);
 
-        Transaction::create($validated);
+        $request->user()->transactions()->create($validated);
 
         return redirect()->route('dashboard')->with('success', 'Transaksi berhasil disimpan!');
     }
@@ -123,9 +127,11 @@ class TransactionController extends Controller
     /**
      * Tampilkan form edit transaksi.
      */
-    public function edit(Transaction $transaction): View
+    public function edit(Request $request, Transaction $transaction): View
     {
-        $categories = Category::all();
+        $this->ensureOwnedByUser($request, $transaction);
+
+        $categories = $request->user()->categories()->get();
         return view('transactions.edit', compact('transaction', 'categories'));
     }
 
@@ -134,10 +140,15 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction): RedirectResponse
     {
+        $this->ensureOwnedByUser($request, $transaction);
+
         $validated = $request->validate([
             'type' => ['required', 'in:income,expense'],
             'amount' => ['required', 'numeric', 'min:1'],
-            'category_id' => ['required', 'exists:categories,id'],
+            'category_id' => [
+                'required',
+                Rule::exists('categories', 'id')->where('user_id', $request->user()->id),
+            ],
             'transaction_date' => ['required', 'date'],
             'description' => ['required', 'string', 'max:255'],
             'notes' => ['nullable', 'string'],
@@ -151,10 +162,20 @@ class TransactionController extends Controller
     /**
      * Hapus transaksi.
      */
-    public function destroy(Transaction $transaction): RedirectResponse
+    public function destroy(Request $request, Transaction $transaction): RedirectResponse
     {
+        $this->ensureOwnedByUser($request, $transaction);
+
         $transaction->delete();
 
         return redirect()->back()->with('success', 'Transaksi berhasil dihapus!');
+    }
+
+    /**
+     * Pastikan transaksi benar-benar milik pengguna yang login.
+     */
+    private function ensureOwnedByUser(Request $request, Transaction $transaction): void
+    {
+        abort_unless($transaction->user_id === $request->user()->id, 404);
     }
 }

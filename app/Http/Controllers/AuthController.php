@@ -77,6 +77,20 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
+        $defaultCategories = [
+            ['name' => 'Gaji Bulanan', 'type' => 'income', 'color' => '#10b981'],
+            ['name' => 'Bonus & THR', 'type' => 'income', 'color' => '#06b6d4'],
+            ['name' => 'Investasi & Usaha', 'type' => 'income', 'color' => '#8b5cf6'],
+            ['name' => 'Makanan & Minuman', 'type' => 'expense', 'color' => '#ef4444'],
+            ['name' => 'Transportasi & Bensin', 'type' => 'expense', 'color' => '#f97316'],
+            ['name' => 'Belanja & Hiburan', 'type' => 'expense', 'color' => '#ec4899'],
+            ['name' => 'Tagihan & Listrik', 'type' => 'expense', 'color' => '#64748b'],
+        ];
+
+        foreach ($defaultCategories as $category) {
+            $user->categories()->create($category + ['icon' => 'tag']);
+        }
+
         // Langsung otomatis login setelah daftar
         Auth::login($user);
         $request->session()->regenerate();

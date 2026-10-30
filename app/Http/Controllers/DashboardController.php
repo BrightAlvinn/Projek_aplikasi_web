@@ -5,30 +5,32 @@ namespace App\Http\Controllers;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
     /**
-     * Menghitung seluruh metrik keuangan untuk ditampilkan di Dashboard.
+     * Menghitung seluruh metrik keuangan pengguna yang login untuk ditampilkan di Dashboard.
      */
-    public function index(): View
+    public function index(Request $request): View
     {
+        $user = $request->user();
         $now = Carbon::now();
         $startOfMonth = $now->copy()->startOfMonth()->toDateString();
         $endOfMonth = $now->copy()->endOfMonth()->toDateString();
 
         // 1. Akumulasi Total Saldo (Semua Waktu)
-        $allIncome = (float) Transaction::income()->sum('amount');
-        $allExpense = (float) Transaction::expense()->sum('amount');
+        $allIncome = (float) $user->transactions()->income()->sum('amount');
+        $allExpense = (float) $user->transactions()->expense()->sum('amount');
         $totalBalance = $allIncome - $allExpense;
 
         // 2. Metrik Bulan Berjalan
-        $thisMonthIncome = (float) Transaction::income()
+        $thisMonthIncome = (float) $user->transactions()->income()
             ->whereBetween('transaction_date', [$startOfMonth, $endOfMonth])
             ->sum('amount');
 
-        $thisMonthExpense = (float) Transaction::expense()
+        $thisMonthExpense = (float) $user->transactions()->expense()
             ->whereBetween('transaction_date', [$startOfMonth, $endOfMonth])
             ->sum('amount');
 
@@ -45,16 +47,16 @@ class DashboardController extends Controller
             $monthEnd = $date->copy()->endOfMonth()->toDateString();
 
             $monthlyChartLabels[] = $date->translatedFormat('M Y');
-            $monthlyIncomeData[] = (float) Transaction::income()
+            $monthlyIncomeData[] = (float) $user->transactions()->income()
                 ->whereBetween('transaction_date', [$monthStart, $monthEnd])
                 ->sum('amount');
-            $monthlyExpenseData[] = (float) Transaction::expense()
+            $monthlyExpenseData[] = (float) $user->transactions()->expense()
                 ->whereBetween('transaction_date', [$monthStart, $monthEnd])
                 ->sum('amount');
         }
 
         // 4. Pembagian Kategori Pengeluaran Bulan Ini
-        $categoryBreakdown = Transaction::query()
+        $categoryBreakdown = $user->transactions()
             ->select('category_id', DB::raw('SUM(amount) as total_amount'))
             ->where('type', 'expense')
             ->whereBetween('transaction_date', [$startOfMonth, $endOfMonth])
@@ -75,13 +77,13 @@ class DashboardController extends Controller
             ->values();
 
         // 5. Daftar 5 Transaksi Terakhir
-        $recentTransactions = Transaction::with('category')
+        $recentTransactions = $user->transactions()->with('category')
             ->latest('transaction_date')
             ->latest('id')
             ->take(5)
             ->get();
 
-        $totalTransactionsCount = Transaction::count();
+        $totalTransactionsCount = $user->transactions()->count();
 
         return view('dashboard', [
             'totalBalance' => $totalBalance,

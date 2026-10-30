@@ -18,7 +18,7 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $user = $request->user();
-        $totalTransactions = $user->transactions_count ?? \App\Models\Transaction::count();
+        $totalTransactions = $user->transactions()->count();
 
         return view('profile', [
             'user' => $user,
