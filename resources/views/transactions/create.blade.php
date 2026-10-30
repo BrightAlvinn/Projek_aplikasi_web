@@ -56,8 +56,10 @@
                     <label for="amount" class="block text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-1.5">Nominal (Rp)</label>
                     <div class="relative">
                         <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 font-bold text-base">Rp</span>
-                        <input type="number" id="amount" name="amount" inputmode="numeric" min="1" value="{{ old('amount') }}" placeholder="50000" required
+                        <input type="text" id="amount" inputmode="numeric" autocomplete="off" value="{{ old('amount') }}" placeholder="50.000" required
+                            data-rupiah-input data-rupiah-target="amount_value"
                             class="block w-full pl-12 pr-4 py-3 border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 rounded-xl text-lg sm:text-xl font-bold text-slate-900 dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-[#4ABDAC] transition">
+                        <input type="hidden" id="amount_value" name="amount" value="{{ old('amount') }}">
                     </div>
                 </div>
 

@@ -423,11 +423,11 @@
                                 Rp
                             </span>
                             <input 
-                                type="number" 
+                                type="text" 
+                                inputmode="numeric"
+                                autocomplete="off"
                                 id="incomeInput" 
-                                value="10000000" 
-                                step="500000" 
-                                min="100000"
+                                value="10.000.000"
                                 class="w-full min-w-0 pl-12 sm:pl-14 pr-4 py-3 rounded-2xl bg-[#F8F9FB] dark:bg-slate-950 border border-[#DFDCE3] dark:border-slate-700 text-slate-900 dark:text-white font-bold text-lg focus:outline-none focus:border-[#4ABDAC] focus:ring-2 focus:ring-[#4ABDAC]/20 transition-all"
                             >
                         </div>
@@ -991,7 +991,32 @@
         const btnCalculateIncome = document.getElementById('btnCalculateIncome');
 
         let calcUsageCount = parseInt(sessionStorage.getItem('catatuang_calc_usage') || '0', 10);
-        let lastCalculatedValue = incomeInput ? incomeInput.value : '10000000';
+        function formatThousands(digits) {
+            return digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+
+        function getIncomeRawValue() {
+            return incomeInput ? incomeInput.value.replace(/\D/g, '') : '';
+        }
+
+        function applyIncomeFormat() {
+            const caretPos = incomeInput.selectionStart ?? incomeInput.value.length;
+            const digitsBeforeCaret = incomeInput.value.slice(0, caretPos).replace(/\D/g, '').length;
+            const formatted = formatThousands(getIncomeRawValue().replace(/^0+(?=\d)/, ''));
+            incomeInput.value = formatted;
+
+            let newCaret = 0;
+            let seenDigits = 0;
+            while (newCaret < formatted.length && seenDigits < digitsBeforeCaret) {
+                if (/\d/.test(formatted[newCaret])) {
+                    seenDigits++;
+                }
+                newCaret++;
+            }
+            incomeInput.setSelectionRange(newCaret, newCaret);
+        }
+
+        let lastCalculatedValue = incomeInput ? getIncomeRawValue() : '10000000';
 
         function updateCalcBadge() {
             if (calcUsageBadge) {
@@ -1035,7 +1060,7 @@
             btn.addEventListener('click', () => {
                 const amount = btn.getAttribute('data-amount');
                 if (incomeInput) {
-                    incomeInput.value = amount;
+                    incomeInput.value = formatThousands(amount);
                     lastCalculatedValue = amount;
                     calculateBudget(amount, true);
                 }
@@ -1051,8 +1076,9 @@
         // Input Pengguna dengan debounce (agar ketikan nominal tidak memicu hitungan ganda per tombol ketik)
         let inputDebounceTimer = null;
         if (incomeInput) {
-            incomeInput.addEventListener('input', (e) => {
-                const val = e.target.value;
+            incomeInput.addEventListener('input', () => {
+                applyIncomeFormat();
+                const val = getIncomeRawValue();
                 calculateBudget(val, false);
 
                 clearTimeout(inputDebounceTimer);
@@ -1067,8 +1093,8 @@
             incomeInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     clearTimeout(inputDebounceTimer);
-                    lastCalculatedValue = incomeInput.value;
-                    calculateBudget(incomeInput.value, true);
+                    lastCalculatedValue = getIncomeRawValue();
+                    calculateBudget(lastCalculatedValue, true);
                 }
             });
         }
@@ -1076,8 +1102,8 @@
         if (btnCalculateIncome && incomeInput) {
             btnCalculateIncome.addEventListener('click', () => {
                 clearTimeout(inputDebounceTimer);
-                lastCalculatedValue = incomeInput.value;
-                calculateBudget(incomeInput.value, true);
+                lastCalculatedValue = getIncomeRawValue();
+                calculateBudget(lastCalculatedValue, true);
             });
         }
 

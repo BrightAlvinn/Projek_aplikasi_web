@@ -373,6 +373,49 @@
         });
     </script>
 
+    <!-- Format otomatis titik ribuan untuk input nominal (Rupiah) -->
+    <script>
+        (function () {
+            function formatThousands(digits) {
+                return digits.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            function applyRupiahFormat(input) {
+                const target = document.getElementById(input.dataset.rupiahTarget);
+                const caretPos = input.selectionStart ?? input.value.length;
+                const digitsBeforeCaret = input.value.slice(0, caretPos).replace(/\D/g, '').length;
+                const digits = input.value.replace(/\D/g, '').replace(/^0+(?=\d)/, '');
+                const formatted = formatThousands(digits);
+
+                input.value = formatted;
+                if (target) {
+                    target.value = digits;
+                }
+
+                if (document.activeElement === input) {
+                    let newCaret = 0;
+                    let seenDigits = 0;
+                    while (newCaret < formatted.length && seenDigits < digitsBeforeCaret) {
+                        if (/\d/.test(formatted[newCaret])) {
+                            seenDigits++;
+                        }
+                        newCaret++;
+                    }
+                    input.setSelectionRange(newCaret, newCaret);
+                }
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('[data-rupiah-input]').forEach((input) => {
+                    const initial = String(input.value || '').split(/[.,]/)[0];
+                    input.value = initial;
+                    applyRupiahFormat(input);
+                    input.addEventListener('input', () => applyRupiahFormat(input));
+                });
+            });
+        })();
+    </script>
+
     @stack('scripts')
 </body>
 </html>
