@@ -146,33 +146,58 @@
             </div>
         </div>
 
-        <!-- Right Chart Card: Pengeluaran per Kategori -->
+        <!-- Right Chart Card: Distribusi Kategori (Pemasukan / Pengeluaran) -->
         <div class="lg:col-span-4 bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between transition-colors">
-            <div class="mb-3">
-                <h2 class="text-sm font-extrabold text-slate-900 dark:text-white tracking-tight">Pengeluaran per Kategori</h2>
-                <p class="text-[11px] text-slate-400 dark:text-slate-500">Distribusi pengeluaran periode berjalan</p>
-            </div>
+            <div>
+                <div class="flex items-center justify-between gap-2 mb-3">
+                    <div>
+                        <h2 id="categoryChartTitle" class="text-sm font-extrabold text-slate-900 dark:text-white tracking-tight">Kategori Transaksi</h2>
+                        <p class="text-[11px] text-slate-400 dark:text-slate-500">Distribusi periode berjalan</p>
+                    </div>
 
-            <!-- Donut Chart Container -->
-            <div class="relative w-full h-52 flex items-center justify-center">
-                <canvas id="categoryDonutChart"></canvas>
-            </div>
+                    <!-- Type Switcher Tabs (Pengeluaran vs Pemasukan) -->
+                    <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold shrink-0">
+                        <button type="button" 
+                                id="btnCategoryExpense" 
+                                onclick="switchCategoryType('expense')" 
+                                class="px-2.5 py-1 rounded-lg transition-all duration-200">
+                            Pengeluaran
+                        </button>
+                        <button type="button" 
+                                id="btnCategoryIncome" 
+                                onclick="switchCategoryType('income')" 
+                                class="px-2.5 py-1 rounded-lg transition-all duration-200">
+                            Pemasukan
+                        </button>
+                    </div>
+                </div>
 
-            <!-- Breakdown list -->
-            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2 max-h-36 overflow-y-auto pr-1">
-                @forelse($categoryBreakdown ?? [] as $cat)
-                    <div class="flex items-center justify-between text-xs font-medium">
-                        <div class="flex items-center gap-2 truncate pr-2">
-                            <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: {{ $cat['color'] ?? '#64748b' }}"></span>
-                            <span class="truncate text-slate-700 dark:text-slate-300">{{ $cat['name'] }}</span>
+                <!-- Donut Chart Container -->
+                <div class="relative w-full h-52 flex items-center justify-center">
+                    <canvas id="categoryDonutChart"></canvas>
+
+                    <!-- Center Overlay Info (Total Nominal & Judul) -->
+                    <div id="donutCenterInfo" class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center px-4">
+                        <span id="donutCenterLabel" class="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 tracking-wider">Total</span>
+                        <span id="donutCenterValue" class="text-xs sm:text-sm font-extrabold text-slate-800 dark:text-white truncate max-w-[130px]">Rp 0</span>
+                    </div>
+
+                    <!-- Empty State Placeholder (saat belum ada data) -->
+                    <div id="donutEmptyState" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center p-4">
+                        <div class="w-10 h-10 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mb-1.5">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"/>
+                            </svg>
                         </div>
-                        <span class="font-bold text-slate-900 dark:text-white shrink-0">{{ $cat['percentage'] }}%</span>
+                        <p id="donutEmptyText" class="text-xs font-semibold text-slate-500 dark:text-slate-400">Belum ada transaksi</p>
                     </div>
-                @empty
-                    <div class="text-center py-2 text-slate-400 dark:text-slate-500 text-xs">
-                        Belum ada pengeluaran di bulan ini.
-                    </div>
-                @endforelse
+                </div>
+            </div>
+
+            <!-- Breakdown list of categories with percentages -->
+            <div id="categoryBreakdownContainer" class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2 max-h-36 overflow-y-auto pr-1">
+                <!-- Diisi secara dinamis melalui JavaScript sesuai data dan tab aktif -->
             </div>
         </div>
 
@@ -237,158 +262,304 @@
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // --- DATA PASSED FROM CONTROLLER ---
         const monthlyLabels = @json($monthlyChartLabels ?? []);
         const monthlyIncome = @json($monthlyIncomeData ?? []);
         const monthlyExpense = @json($monthlyExpenseData ?? []);
-        const rawCategoryData = @json($categoryBreakdown ?? []);
+        const expenseCategoryData = @json($expenseCategoryBreakdown ?? []);
+        const incomeCategoryData = @json($incomeCategoryBreakdown ?? []);
+        const totalExpenseThisMonth = {{ (float) ($thisMonthExpense ?? 0) }};
+        const totalIncomeThisMonth = {{ (float) ($thisMonthIncome ?? 0) }};
 
         const labels = monthlyLabels.length ? monthlyLabels : ['Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt'];
-        const incomeData = monthlyIncome.length ? monthlyIncome : [120000, 150000, 180000, 160000, 210000, 155000];
-        const expenseData = monthlyExpense.length ? monthlyExpense : [80000, 95000, 110000, 90000, 130000, 60000];
-
-        // 1. TREN ARUS KAS
-        const trendCtx = document.getElementById('cashflowTrendChart').getContext('2d');
-        const gradientIncome = trendCtx.createLinearGradient(0, 0, 0, 260);
-        gradientIncome.addColorStop(0, 'rgba(74, 189, 172, 0.40)');
-        gradientIncome.addColorStop(1, 'rgba(74, 189, 172, 0.02)');
-
-        const gradientExpense = trendCtx.createLinearGradient(0, 0, 0, 260);
-        gradientExpense.addColorStop(0, 'rgba(252, 74, 26, 0.30)');
-        gradientExpense.addColorStop(1, 'rgba(252, 74, 26, 0.02)');
+        const incomeData = monthlyIncome.length ? monthlyIncome : [0, 0, 0, 0, 0, 0];
+        const expenseData = monthlyExpense.length ? monthlyExpense : [0, 0, 0, 0, 0, 0];
 
         const isDark = document.documentElement.classList.contains('dark');
         const gridColor = isDark ? '#1e293b' : '#f1f5f9';
         const tickColor = isDark ? '#64748b' : '#94a3b8';
 
-        window.trendChart = new Chart(trendCtx, {
-            type: 'line',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Pemasukan (M)',
-                        data: incomeData,
-                        borderColor: '#4ABDAC',
-                        borderWidth: 2.5,
-                        fill: true,
-                        backgroundColor: gradientIncome,
-                        tension: 0.42,
-                        pointRadius: 3,
-                        pointHoverRadius: 6,
-                        pointBackgroundColor: '#4ABDAC',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2
-                    },
-                    {
-                        label: 'Pengeluaran (K)',
-                        data: expenseData,
-                        borderColor: '#FC4A1A',
-                        borderWidth: 2,
-                        fill: true,
-                        backgroundColor: gradientExpense,
-                        tension: 0.42,
-                        pointRadius: 3,
-                        pointHoverRadius: 6,
-                        pointBackgroundColor: '#FC4A1A',
-                        pointBorderColor: '#ffffff',
-                        pointBorderWidth: 2
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        backgroundColor: '#0f172a',
-                        titleFont: { family: 'Plus Jakarta Sans', size: 12, weight: 'bold' },
-                        bodyFont: { family: 'Plus Jakarta Sans', size: 12 },
-                        padding: 10,
-                        cornerRadius: 10,
-                        callbacks: {
-                            label: function(context) {
-                                return context.dataset.label + ': Rp ' + new Intl.NumberFormat('id-ID').format(context.raw);
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: { display: false },
-                        ticks: { color: tickColor, font: { family: 'Plus Jakarta Sans', size: 11 } }
-                    },
-                    y: {
-                        grid: { color: gridColor, drawBorder: false },
-                        ticks: {
-                            color: tickColor,
-                            font: { family: 'Plus Jakarta Sans', size: 10 },
-                            callback: function(val) { return 'Rp ' + (val >= 1000 ? (val / 1000) + 'k' : val); }
-                        }
-                    }
-                }
-            }
-        });
-
-        // 2. DONUT KATEGORI
-        const donutCtx = document.getElementById('categoryDonutChart').getContext('2d');
-        let donutLabels = [];
-        let donutValues = [];
-        let donutColors = [];
-
-        if (rawCategoryData && rawCategoryData.length > 0) {
-            donutLabels = rawCategoryData.map(item => item.name);
-            donutValues = rawCategoryData.map(item => item.amount);
-            donutColors = rawCategoryData.map(item => item.color || '#4ABDAC');
-        } else {
-            donutLabels = ['Makanan & Minuman', 'Transportasi', 'Tagihan & Listrik', 'Belanja', 'Lainnya'];
-            donutValues = [40, 25, 15, 12, 8];
-            donutColors = ['#4ABDAC', '#F7B733', '#FC4A1A', '#8b5cf6', '#94a3b8'];
+        function formatRupiah(val) {
+            return 'Rp ' + new Intl.NumberFormat('id-ID').format(val);
         }
 
-        window.donutChart = new Chart(donutCtx, {
-            type: 'doughnut',
-            data: {
-                labels: donutLabels,
-                datasets: [{
-                    data: donutValues,
-                    backgroundColor: donutColors,
-                    borderWidth: 2,
-                    borderColor: isDark ? '#0f172a' : '#ffffff',
-                    hoverOffset: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                cutout: '68%',
-                plugins: {
-                    legend: { display: false },
-                    tooltip: {
-                        backgroundColor: '#0f172a',
-                        titleFont: { family: 'Plus Jakarta Sans', size: 11, weight: 'bold' },
-                        bodyFont: { family: 'Plus Jakarta Sans', size: 11 },
-                        padding: 8,
-                        cornerRadius: 8,
-                        callbacks: {
-                            label: function(context) {
-                                const value = context.raw;
-                                return context.label + ': ' + (typeof value === 'number' && value > 100 ? 'Rp ' + new Intl.NumberFormat('id-ID').format(value) : value + '%');
+        function formatRupiahCompact(val) {
+            if (val === 0) return 'Rp 0';
+            if (val >= 1000000000) {
+                return 'Rp ' + (val / 1000000000).toLocaleString('id-ID', { maximumFractionDigits: 1 }) + ' M';
+            }
+            if (val >= 1000000) {
+                return 'Rp ' + (val / 1000000).toLocaleString('id-ID', { maximumFractionDigits: 1 }) + ' jt';
+            }
+            if (val >= 1000) {
+                return 'Rp ' + (val / 1000).toLocaleString('id-ID') + ' rb';
+            }
+            return 'Rp ' + val;
+        }
+
+        // ==========================================
+        // 1. TREN ARUS KAS (LINE CHART)
+        // ==========================================
+        const trendCanvas = document.getElementById('cashflowTrendChart');
+        if (trendCanvas) {
+            const trendCtx = trendCanvas.getContext('2d');
+            const gradientIncome = trendCtx.createLinearGradient(0, 0, 0, 260);
+            gradientIncome.addColorStop(0, 'rgba(74, 189, 172, 0.40)');
+            gradientIncome.addColorStop(1, 'rgba(74, 189, 172, 0.02)');
+
+            const gradientExpense = trendCtx.createLinearGradient(0, 0, 0, 260);
+            gradientExpense.addColorStop(0, 'rgba(252, 74, 26, 0.30)');
+            gradientExpense.addColorStop(1, 'rgba(252, 74, 26, 0.02)');
+
+            window.trendChart = new Chart(trendCtx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Pemasukan (M)',
+                            data: incomeData,
+                            borderColor: '#4ABDAC',
+                            borderWidth: 2.5,
+                            fill: true,
+                            backgroundColor: gradientIncome,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: '#4ABDAC',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2
+                        },
+                        {
+                            label: 'Pengeluaran (K)',
+                            data: expenseData,
+                            borderColor: '#FC4A1A',
+                            borderWidth: 2.5,
+                            fill: true,
+                            backgroundColor: gradientExpense,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: '#FC4A1A',
+                            pointBorderColor: '#ffffff',
+                            pointBorderWidth: 2
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#0f172a',
+                            titleFont: { family: 'Plus Jakarta Sans', size: 12, weight: 'bold' },
+                            bodyFont: { family: 'Plus Jakarta Sans', size: 12 },
+                            padding: 10,
+                            cornerRadius: 10,
+                            callbacks: {
+                                label: function(context) {
+                                    return ' ' + context.dataset.label + ': ' + formatRupiah(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: tickColor, font: { family: 'Plus Jakarta Sans', size: 11 } }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: gridColor, drawBorder: false },
+                            ticks: {
+                                color: tickColor,
+                                font: { family: 'Plus Jakarta Sans', size: 10 },
+                                callback: function(val) { return formatRupiahCompact(val); }
                             }
                         }
                     }
                 }
-            }
-        });
+            });
+        }
 
-        // Function called when theme changes
+        // ==========================================
+        // 2. DONUT KATEGORI & PERSENTASE INTERAKTIF
+        // ==========================================
+        const donutCanvas = document.getElementById('categoryDonutChart');
+        if (donutCanvas) {
+            const donutCtx = donutCanvas.getContext('2d');
+
+            window.donutChart = new Chart(donutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        data: [],
+                        backgroundColor: [],
+                        borderWidth: 2,
+                        borderColor: isDark ? '#0f172a' : '#ffffff',
+                        hoverOffset: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '68%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: '#0f172a',
+                            titleFont: { family: 'Plus Jakarta Sans', size: 11, weight: 'bold' },
+                            bodyFont: { family: 'Plus Jakarta Sans', size: 11 },
+                            padding: 10,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    if (context.label === 'Belum ada transaksi') return ' Belum ada data';
+                                    const value = context.raw;
+                                    const dataset = context.dataset.data;
+                                    const total = dataset.reduce((a, b) => a + b, 0);
+                                    const pct = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                    return ` ${context.label}: ${formatRupiah(value)} (${pct}%)`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Fungsi render isi Donut & List Persentase berdasarkan Tipe (income / expense)
+            window.renderCategoryView = function (type) {
+                const isIncome = (type === 'income');
+                const dataList = isIncome ? incomeCategoryData : expenseCategoryData;
+                const totalAmount = isIncome ? totalIncomeThisMonth : totalExpenseThisMonth;
+
+                // Elements
+                const titleEl = document.getElementById('categoryChartTitle');
+                const btnExpense = document.getElementById('btnCategoryExpense');
+                const btnIncome = document.getElementById('btnCategoryIncome');
+                const listContainer = document.getElementById('categoryBreakdownContainer');
+                const emptyState = document.getElementById('donutEmptyState');
+                const emptyText = document.getElementById('donutEmptyText');
+                const centerInfo = document.getElementById('donutCenterInfo');
+                const centerLabel = document.getElementById('donutCenterLabel');
+                const centerValue = document.getElementById('donutCenterValue');
+
+                // Update Title
+                if (titleEl) {
+                    titleEl.textContent = isIncome ? 'Pemasukan per Kategori' : 'Pengeluaran per Kategori';
+                }
+
+                // Update Toggle Buttons Styling
+                if (btnExpense && btnIncome) {
+                    if (isIncome) {
+                        btnIncome.className = 'px-2.5 py-1 rounded-lg transition-all duration-200 bg-[#4ABDAC] text-white shadow-xs';
+                        btnExpense.className = 'px-2.5 py-1 rounded-lg transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white';
+                    } else {
+                        btnExpense.className = 'px-2.5 py-1 rounded-lg transition-all duration-200 bg-rose-500 text-white shadow-xs';
+                        btnIncome.className = 'px-2.5 py-1 rounded-lg transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white';
+                    }
+                }
+
+                // Cek apakah ada data kategori
+                if (dataList && dataList.length > 0 && totalAmount > 0) {
+                    // Ada data: sembunyikan empty state, tampilkan center overlay & grafik
+                    if (emptyState) emptyState.classList.add('hidden');
+                    if (centerInfo) {
+                        centerInfo.classList.remove('hidden');
+                        if (centerLabel) centerLabel.textContent = isIncome ? 'Total Pemasukan' : 'Total Pengeluaran';
+                        if (centerValue) centerValue.textContent = formatRupiah(totalAmount);
+                    }
+
+                    const labels = dataList.map(item => item.name);
+                    const values = dataList.map(item => item.amount);
+                    const colors = dataList.map((item, idx) => {
+                        if (item.color) return item.color;
+                        const palette = isIncome 
+                            ? ['#4ABDAC', '#3ca092', '#10b981', '#06b6d4', '#3b82f6', '#8b5cf6']
+                            : ['#FC4A1A', '#F7B733', '#ef4444', '#f97316', '#ec4899', '#a855f7'];
+                        return palette[idx % palette.length];
+                    });
+
+                    window.donutChart.data.labels = labels;
+                    window.donutChart.data.datasets[0].data = values;
+                    window.donutChart.data.datasets[0].backgroundColor = colors;
+                    window.donutChart.options.cutout = '68%';
+                    window.donutChart.update();
+
+                    // Render list kategori + nominal + persentase
+                    if (listContainer) {
+                        let html = '';
+                        dataList.forEach((item, idx) => {
+                            const color = colors[idx];
+                            html += `
+                                <div class="flex items-center justify-between text-xs font-medium py-1 px-1 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 transition">
+                                    <div class="flex items-center gap-2 truncate pr-2 min-w-0">
+                                        <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background-color: ${color}"></span>
+                                        <span class="truncate text-slate-700 dark:text-slate-300 font-semibold">${item.name}</span>
+                                    </div>
+                                    <div class="flex items-center gap-2.5 shrink-0">
+                                        <span class="text-[11px] text-slate-400 dark:text-slate-500">${formatRupiah(item.amount)}</span>
+                                        <span class="font-extrabold text-xs w-14 text-right ${isIncome ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}">
+                                            ${item.percentage}%
+                                        </span>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        listContainer.innerHTML = html;
+                    }
+                } else {
+                    // Kosong: tampilkan placeholder cincin kosong netral dan teks
+                    if (emptyState) emptyState.classList.remove('hidden');
+                    if (centerInfo) centerInfo.classList.add('hidden');
+                    if (emptyText) emptyText.textContent = isIncome ? 'Belum ada pemasukan di bulan ini' : 'Belum ada pengeluaran di bulan ini';
+
+                    const neutralRing = document.documentElement.classList.contains('dark') ? '#1e293b' : '#e2e8f0';
+                    window.donutChart.data.labels = ['Belum ada transaksi'];
+                    window.donutChart.data.datasets[0].data = [1];
+                    window.donutChart.data.datasets[0].backgroundColor = [neutralRing];
+                    window.donutChart.options.cutout = '75%';
+                    window.donutChart.update();
+
+                    if (listContainer) {
+                        const createUrl = isIncome ? '{{ route("transactions.create", ["type" => "income"]) }}' : '{{ route("transactions.create", ["type" => "expense"]) }}';
+                        const linkColor = isIncome ? 'text-[#4ABDAC]' : 'text-rose-500';
+                        const actionLabel = isIncome ? '+ Catat Pemasukan' : '+ Catat Pengeluaran';
+
+                        listContainer.innerHTML = `
+                            <div class="text-center py-4 text-slate-400 dark:text-slate-500 text-xs">
+                                <p>Belum ada transaksi ${isIncome ? 'pemasukan' : 'pengeluaran'} di bulan ini.</p>
+                                <a href="${createUrl}" class="${linkColor} font-bold hover:underline mt-1.5 inline-block">
+                                    ${actionLabel}
+                                </a>
+                            </div>
+                        `;
+                    }
+                }
+            };
+
+            window.switchCategoryType = function(type) {
+                window.renderCategoryView(type);
+            };
+
+            // Smart Auto-Selection saat pertama kali halaman dimuat:
+            // Jika belum ada pengeluaran tetapi ada pemasukan, langsung buka tab Pemasukan
+            const initialType = (expenseCategoryData.length === 0 && incomeCategoryData.length > 0) ? 'income' : 'expense';
+            window.renderCategoryView(initialType);
+        }
+
+        // ==========================================
+        // 3. THEME SYNCHRONIZATION
+        // ==========================================
         window.updateChartsTheme = function(isDarkTheme) {
-            const newGridColor = isDarkTheme ? '#1e293b' : '#f1f5f9';
-            const newTickColor = isDarkTheme ? '#64748b' : '#94a3b8';
+            const newGrid = isDarkTheme ? '#1e293b' : '#f1f5f9';
+            const newTick = isDarkTheme ? '#64748b' : '#94a3b8';
             if (window.trendChart) {
-                window.trendChart.options.scales.x.ticks.color = newTickColor;
-                window.trendChart.options.scales.y.ticks.color = newTickColor;
-                window.trendChart.options.scales.y.grid.color = newGridColor;
+                window.trendChart.options.scales.x.ticks.color = newTick;
+                window.trendChart.options.scales.y.ticks.color = newTick;
+                window.trendChart.options.scales.y.grid.color = newGrid;
                 window.trendChart.update();
             }
             if (window.donutChart) {

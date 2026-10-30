@@ -56,7 +56,7 @@ class DashboardController extends Controller
         }
 
         // 4. Pembagian Kategori Pengeluaran Bulan Ini
-        $categoryBreakdown = $user->transactions()
+        $expenseCategoryBreakdown = $user->transactions()
             ->select('category_id', DB::raw('SUM(amount) as total_amount'))
             ->where('type', 'expense')
             ->whereBetween('transaction_date', [$startOfMonth, $endOfMonth])
@@ -67,8 +67,8 @@ class DashboardController extends Controller
                 $percentage = $thisMonthExpense > 0 ? round(($item->total_amount / $thisMonthExpense) * 100, 1) : 0;
 
                 return [
-                    'name' => $item->category?->name ?? 'Lainnya',
-                    'color' => $item->category?->color ?? '#94a3b8',
+                    'name' => $item->category?->name ?? 'Lainnya / Umum',
+                    'color' => $item->category?->color ?? '#FC4A1A',
                     'amount' => (float) $item->total_amount,
                     'percentage' => $percentage,
                 ];
@@ -76,7 +76,28 @@ class DashboardController extends Controller
             ->sortByDesc('amount')
             ->values();
 
-        // 5. Daftar 5 Transaksi Terakhir
+        // 5. Pembagian Kategori Pemasukan Bulan Ini
+        $incomeCategoryBreakdown = $user->transactions()
+            ->select('category_id', DB::raw('SUM(amount) as total_amount'))
+            ->where('type', 'income')
+            ->whereBetween('transaction_date', [$startOfMonth, $endOfMonth])
+            ->groupBy('category_id')
+            ->with('category')
+            ->get()
+            ->map(function ($item) use ($thisMonthIncome) {
+                $percentage = $thisMonthIncome > 0 ? round(($item->total_amount / $thisMonthIncome) * 100, 1) : 0;
+
+                return [
+                    'name' => $item->category?->name ?? 'Lainnya / Umum',
+                    'color' => $item->category?->color ?? '#4ABDAC',
+                    'amount' => (float) $item->total_amount,
+                    'percentage' => $percentage,
+                ];
+            })
+            ->sortByDesc('amount')
+            ->values();
+
+        // 6. Daftar 5 Transaksi Terakhir
         $recentTransactions = $user->transactions()->with('category')
             ->latest('transaction_date')
             ->latest('id')
@@ -93,7 +114,9 @@ class DashboardController extends Controller
             'monthlyChartLabels' => $monthlyChartLabels,
             'monthlyIncomeData' => $monthlyIncomeData,
             'monthlyExpenseData' => $monthlyExpenseData,
-            'categoryBreakdown' => $categoryBreakdown,
+            'categoryBreakdown' => $expenseCategoryBreakdown,
+            'expenseCategoryBreakdown' => $expenseCategoryBreakdown,
+            'incomeCategoryBreakdown' => $incomeCategoryBreakdown,
             'recentTransactions' => $recentTransactions,
             'totalTransactionsCount' => $totalTransactionsCount,
         ]);
