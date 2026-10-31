@@ -149,24 +149,30 @@
         <!-- Right Chart Card: Distribusi Kategori (Pemasukan / Pengeluaran) -->
         <div class="lg:col-span-4 bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between transition-colors">
             <div>
-                <div class="flex items-center justify-between gap-2 mb-3">
+                <div class="mb-3 space-y-3">
                     <div>
                         <h2 id="categoryChartTitle" class="text-sm font-extrabold text-slate-900 dark:text-white tracking-tight">Kategori Transaksi</h2>
                         <p class="text-[11px] text-slate-400 dark:text-slate-500">Distribusi periode berjalan</p>
                     </div>
 
-                    <!-- Type Switcher Tabs (Pengeluaran vs Pemasukan) -->
-                    <div class="inline-flex p-1 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-bold shrink-0">
+                    <!-- Type Switcher Tabs -->
+                    <div class="grid grid-cols-3 gap-1 w-full p-1 bg-slate-100 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-[10px] sm:text-xs font-bold">
+                        <button type="button"
+                                id="btnCategoryComparison"
+                                onclick="switchCategoryType('comparison')"
+                                class="min-w-0 px-1.5 py-2 rounded-lg leading-tight text-center transition-all duration-200">
+                            Pemasukan &amp; Pengeluaran
+                        </button>
                         <button type="button" 
                                 id="btnCategoryExpense" 
                                 onclick="switchCategoryType('expense')" 
-                                class="px-2.5 py-1 rounded-lg transition-all duration-200">
+                                class="min-w-0 px-1.5 py-2 rounded-lg leading-tight text-center transition-all duration-200">
                             Pengeluaran
                         </button>
                         <button type="button" 
                                 id="btnCategoryIncome" 
                                 onclick="switchCategoryType('income')" 
-                                class="px-2.5 py-1 rounded-lg transition-all duration-200">
+                                class="min-w-0 px-1.5 py-2 rounded-lg leading-tight text-center transition-all duration-200">
                             Pemasukan
                         </button>
                     </div>
@@ -429,8 +435,9 @@
                 }
             });
 
-            // Fungsi render isi Donut & List Persentase berdasarkan Tipe (income / expense)
+            // Fungsi render isi Donut & List Persentase berdasarkan mode tampilan.
             window.renderCategoryView = function (type) {
+                const isComparison = (type === 'comparison');
                 const isIncome = (type === 'income');
                 const dataList = isIncome ? incomeCategoryData : expenseCategoryData;
                 const totalAmount = isIncome ? totalIncomeThisMonth : totalExpenseThisMonth;
@@ -439,6 +446,7 @@
                 const titleEl = document.getElementById('categoryChartTitle');
                 const btnExpense = document.getElementById('btnCategoryExpense');
                 const btnIncome = document.getElementById('btnCategoryIncome');
+                const btnComparison = document.getElementById('btnCategoryComparison');
                 const listContainer = document.getElementById('categoryBreakdownContainer');
                 const emptyState = document.getElementById('donutEmptyState');
                 const emptyText = document.getElementById('donutEmptyText');
@@ -448,18 +456,66 @@
 
                 // Update Title
                 if (titleEl) {
-                    titleEl.textContent = isIncome ? 'Pemasukan per Kategori' : 'Pengeluaran per Kategori';
+                    titleEl.textContent = isComparison ? 'Pemasukan & Pengeluaran' : (isIncome ? 'Pemasukan per Kategori' : 'Pengeluaran per Kategori');
                 }
 
                 // Update Toggle Buttons Styling
-                if (btnExpense && btnIncome) {
+                if (btnExpense && btnIncome && btnComparison) {
+                    const inactiveClass = 'px-2.5 py-1 rounded-lg transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white';
+                    btnComparison.className = isComparison
+                        ? 'min-w-0 px-1.5 py-2 rounded-lg leading-tight text-center transition-all duration-200 bg-slate-700 text-white shadow-xs'
+                        : 'min-w-0 px-1.5 py-2 rounded-lg leading-tight text-center transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white';
                     if (isIncome) {
-                        btnIncome.className = 'px-2.5 py-1 rounded-lg transition-all duration-200 bg-[#4ABDAC] text-white shadow-xs';
-                        btnExpense.className = 'px-2.5 py-1 rounded-lg transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white';
+                        btnIncome.className = 'min-w-0 px-1.5 py-2 rounded-lg leading-tight text-center transition-all duration-200 bg-[#4ABDAC] text-white shadow-xs';
+                        btnExpense.className = 'min-w-0 px-1.5 py-2 rounded-lg leading-tight text-center transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white';
                     } else {
-                        btnExpense.className = 'px-2.5 py-1 rounded-lg transition-all duration-200 bg-rose-500 text-white shadow-xs';
-                        btnIncome.className = 'px-2.5 py-1 rounded-lg transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white';
+                        btnExpense.className = isComparison
+                            ? 'min-w-0 px-1.5 py-2 rounded-lg leading-tight text-center transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white'
+                            : 'min-w-0 px-1.5 py-2 rounded-lg leading-tight text-center transition-all duration-200 bg-rose-500 text-white shadow-xs';
+                        btnIncome.className = 'min-w-0 px-1.5 py-2 rounded-lg leading-tight text-center transition-all duration-200 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-white';
                     }
+                }
+
+                if (isComparison) {
+                    const hasComparisonData = totalIncomeThisMonth > 0 || totalExpenseThisMonth > 0;
+                    if (emptyState) emptyState.classList.toggle('hidden', hasComparisonData);
+                    if (centerInfo) {
+                        centerInfo.classList.toggle('hidden', !hasComparisonData);
+                        if (centerLabel) centerLabel.textContent = 'Selisih Bersih';
+                        if (centerValue) centerValue.textContent = formatRupiah(totalIncomeThisMonth - totalExpenseThisMonth);
+                    }
+                    if (emptyText) emptyText.textContent = 'Belum ada pemasukan atau pengeluaran di bulan ini';
+
+                    window.donutChart.data.labels = ['Pemasukan', 'Pengeluaran'];
+                    window.donutChart.data.datasets[0].data = hasComparisonData
+                        ? [totalIncomeThisMonth, totalExpenseThisMonth]
+                        : [1];
+                    window.donutChart.data.datasets[0].backgroundColor = hasComparisonData
+                        ? ['#10b981', '#ef4444']
+                        : [document.documentElement.classList.contains('dark') ? '#1e293b' : '#e2e8f0'];
+                    window.donutChart.options.cutout = '68%';
+                    window.donutChart.update();
+
+                    if (listContainer) {
+                        listContainer.innerHTML = `
+                            <div class="flex items-center justify-between text-xs font-medium py-1 px-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                                    <span class="text-slate-700 dark:text-slate-300 font-semibold">Pemasukan</span>
+                                </div>
+                                <span class="text-[11px] text-slate-400 dark:text-slate-500">${formatRupiah(totalIncomeThisMonth)}</span>
+                            </div>
+                            <div class="flex items-center justify-between text-xs font-medium py-1 px-1">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                                    <span class="text-slate-700 dark:text-slate-300 font-semibold">Pengeluaran</span>
+                                </div>
+                                <span class="text-[11px] text-slate-400 dark:text-slate-500">${formatRupiah(totalExpenseThisMonth)}</span>
+                            </div>
+                        `;
+                    }
+
+                    return;
                 }
 
                 // Cek apakah ada data kategori
@@ -544,10 +600,7 @@
                 window.renderCategoryView(type);
             };
 
-            // Smart Auto-Selection saat pertama kali halaman dimuat:
-            // Jika belum ada pengeluaran tetapi ada pemasukan, langsung buka tab Pemasukan
-            const initialType = (expenseCategoryData.length === 0 && incomeCategoryData.length > 0) ? 'income' : 'expense';
-            window.renderCategoryView(initialType);
+            window.renderCategoryView('comparison');
         }
 
         // ==========================================
