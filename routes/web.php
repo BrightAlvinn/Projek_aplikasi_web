@@ -1,12 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChatbotController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionController;
+use Illuminate\Support\Facades\Route;
 
 // Rute Landing Page (Bebas dari dependensi database untuk tahap awal)
 Route::get('/', function () {
@@ -24,7 +25,6 @@ Route::get('login', function () {
 Route::post('login', [AuthController::class, 'login'])->name('login.post');
 Route::post('register', [AuthController::class, 'register'])->name('register.post');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-
 
 // Rute yang Memerlukan Login (Dilindungi Middleware Auth)
 Route::middleware('auth')->group(function () {
@@ -45,5 +45,9 @@ Route::middleware('auth')->group(function () {
 
     // Rute Laporan & Analitik Keuangan
     Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-});
 
+    // Rute Asisten Keuangan AI (Chatbot)
+    Route::post('chatbot/chat', [ChatbotController::class, 'chat'])
+        ->middleware('throttle:20,1')
+        ->name('chatbot.chat');
+});

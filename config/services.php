@@ -35,4 +35,10 @@ return [
         ],
     ],
 
+    'griphub' => [
+        'base_url' => env('GRIPHUB_BASE_URL', 'https://griphubrouter.web.id/v1'),
+        'api_key' => env('GRIPHUB_API_KEY'),
+        'model' => env('GRIPHUB_MODEL', 'deepseek-v4.1-flash'),
+    ],
+
 ];
