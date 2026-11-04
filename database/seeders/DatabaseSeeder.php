@@ -3,12 +3,24 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // Akun Default Admin
+        User::updateOrCreate(
+            ['email' => 'admin@catatuang.com'],
+            [
+                'name' => 'admin',
+                'role' => 'admin',
+                'password' => Hash::make('password123'),
+            ]
+        );
+
         // Kategori Pemasukan
         Category::firstOrCreate(['name' => 'Gaji Bulanan', 'type' => 'income', 'color' => '#10b981']);
         Category::firstOrCreate(['name' => 'Bonus & THR', 'type' => 'income', 'color' => '#06b6d4']);

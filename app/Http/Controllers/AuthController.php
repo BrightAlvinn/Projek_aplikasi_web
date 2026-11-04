@@ -56,6 +56,11 @@ class AuthController extends Controller
         Auth::login($user, $remember);
         $request->session()->regenerate();
 
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard')
+                ->with('success', 'Selamat datang kembali, Admin ' . $user->name . '!');
+        }
+
         return redirect()->intended(route('dashboard'))
             ->with('success', 'Selamat datang kembali, ' . Auth::user()->name . '!');
     }
@@ -74,6 +79,7 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
+            'role' => 'user',
             'password' => Hash::make($validated['password']),
         ]);
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChatbotController;
@@ -28,6 +29,11 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
 // Rute yang Memerlukan Login (Dilindungi Middleware Auth)
 Route::middleware('auth')->group(function () {
+    // Rute Khusus Admin
+    Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+        Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    });
+
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Rute Profil Pengguna
