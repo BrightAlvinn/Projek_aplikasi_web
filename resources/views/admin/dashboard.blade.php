@@ -82,7 +82,7 @@
 
     <aside id="sidebarDrawer" class="fixed top-0 left-0 bottom-0 z-50 w-[85vw] max-w-[20rem] sm:w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between transform -translate-x-full" aria-label="Menu Admin CATATUANG" aria-hidden="true">
         <div class="flex-1 min-h-0 p-5 sm:p-6 space-y-6 overflow-y-auto">
-            <!-- Brand Logo & Close Button -->
+            <!-- Brand Logo -->
             <div class="flex items-center justify-between">
                 <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 group">
                     <div class="w-10 h-10 rounded-xl bg-[#4ABDAC] text-white flex items-center justify-center shadow-md shadow-[#4ABDAC]/25 group-hover:scale-105 transition-transform">
@@ -98,12 +98,6 @@
                         <p class="text-[11px] text-slate-400 dark:text-slate-500 font-medium">Panel Administrator</p>
                     </div>
                 </a>
-
-                <button id="sidebarCloseBtn" type="button" class="p-2 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition" aria-label="Tutup menu">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
             </div>
 
             <!-- Navigation Links Khusus Admin -->
@@ -167,7 +161,7 @@
                         </svg>
                     </button>
 
-                    <a href="{{ route('admin.dashboard') }}" class="hidden sm:flex items-center gap-2.5 shrink-0 pl-1 border-l border-slate-200 dark:border-slate-800">
+                    <a id="headerBrandLogo" href="{{ route('admin.dashboard') }}" class="hidden sm:flex items-center gap-2.5 shrink-0 pl-1 border-l border-slate-200 dark:border-slate-800">
                         <div class="w-8 h-8 rounded-lg bg-[#4ABDAC] text-white flex items-center justify-center font-bold text-xs shadow-xs">
                             <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -288,7 +282,7 @@
         const sidebarDrawer = document.getElementById('sidebarDrawer');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
         const sidebarOpenBtn = document.getElementById('sidebarOpenBtn');
-        const sidebarCloseBtn = document.getElementById('sidebarCloseBtn');
+        const headerBrandLogo = document.getElementById('headerBrandLogo');
         const appShell = document.getElementById('appShell');
         const SIDEBAR_TRANSITION_MS = 420;
         const DOCKED_SIDEBAR_QUERY = window.matchMedia('(min-width: 768px)');
@@ -318,6 +312,7 @@
             sidebarDrawer.classList.remove('-translate-x-full');
             sidebarDrawer.setAttribute('aria-hidden', 'false');
             sidebarOpenBtn?.setAttribute('aria-expanded', 'true');
+            headerBrandLogo?.classList.remove('sm:flex');
             applyOpenLayout();
         }
 
@@ -327,6 +322,7 @@
             sidebarDrawer.classList.add('-translate-x-full');
             sidebarDrawer.setAttribute('aria-hidden', 'true');
             sidebarOpenBtn?.setAttribute('aria-expanded', 'false');
+            headerBrandLogo?.classList.add('sm:flex');
             sidebarOverlay.classList.add('hidden');
             appShell.classList.remove('is-shifted');
             if (appShell.style.transform) appShell.style.transform = 'translateX(0)';
@@ -343,7 +339,6 @@
         }
 
         if (sidebarOpenBtn) sidebarOpenBtn.addEventListener('click', toggleSidebar);
-        if (sidebarCloseBtn) sidebarCloseBtn.addEventListener('click', closeSidebar);
         if (sidebarOverlay) sidebarOverlay.addEventListener('click', closeSidebar);
         DOCKED_SIDEBAR_QUERY.addEventListener('change', () => {
             if (isSidebarOpen) applyOpenLayout();
