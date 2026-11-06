@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DefaultCategory;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -52,6 +53,16 @@ class AuthController extends Controller
                 ]);
         }
 
+        // Cek apakah akun aktif (tidak disuspend)
+        if (! $user->isActive()) {
+            return back()
+                ->withInput($request->only('email'))
+                ->with('error', 'Akun Anda dinonaktifkan (disuspend) oleh Administrator. Silakan hubungi admin untuk bantuan.')
+                ->withErrors([
+                    'email' => 'Akun dinonaktifkan oleh administrator.',
+                ]);
+        }
+
         // Login pengguna
         Auth::login($user, $remember);
         $request->session()->regenerate();
@@ -83,18 +94,31 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
-        $defaultCategories = [
-            ['name' => 'Gaji Bulanan', 'type' => 'income', 'color' => '#10b981'],
-            ['name' => 'Bonus & THR', 'type' => 'income', 'color' => '#06b6d4'],
-            ['name' => 'Investasi & Usaha', 'type' => 'income', 'color' => '#8b5cf6'],
-            ['name' => 'Makanan & Minuman', 'type' => 'expense', 'color' => '#ef4444'],
-            ['name' => 'Transportasi & Bensin', 'type' => 'expense', 'color' => '#f97316'],
-            ['name' => 'Belanja & Hiburan', 'type' => 'expense', 'color' => '#ec4899'],
-            ['name' => 'Tagihan & Listrik', 'type' => 'expense', 'color' => '#64748b'],
-        ];
+        $defaultCategories = DefaultCategory::all();
 
-        foreach ($defaultCategories as $category) {
-            $user->categories()->create($category + ['icon' => 'tag']);
+        if ($defaultCategories->isEmpty()) {
+            $fallbackCategories = [
+                ['name' => 'Gaji Bulanan', 'type' => 'income', 'color' => '#10b981', 'icon' => 'wallet'],
+                ['name' => 'Bonus & THR', 'type' => 'income', 'color' => '#06b6d4', 'icon' => 'gift'],
+                ['name' => 'Investasi & Usaha', 'type' => 'income', 'color' => '#8b5cf6', 'icon' => 'trending-up'],
+                ['name' => 'Makanan & Minuman', 'type' => 'expense', 'color' => '#ef4444', 'icon' => 'utensils'],
+                ['name' => 'Transportasi & Bensin', 'type' => 'expense', 'color' => '#f97316', 'icon' => 'car'],
+                ['name' => 'Belanja & Hiburan', 'type' => 'expense', 'color' => '#ec4899', 'icon' => 'shopping-bag'],
+                ['name' => 'Tagihan & Listrik', 'type' => 'expense', 'color' => '#64748b', 'icon' => 'zap'],
+            ];
+
+            foreach ($fallbackCategories as $category) {
+                $user->categories()->create($category);
+            }
+        } else {
+            foreach ($defaultCategories as $category) {
+                $user->categories()->create([
+                    'name' => $category->name,
+                    'type' => $category->type,
+                    'color' => $category->color,
+                    'icon' => $category->icon ?: 'tag',
+                ]);
+            }
         }
 
         // Langsung otomatis login setelah daftar

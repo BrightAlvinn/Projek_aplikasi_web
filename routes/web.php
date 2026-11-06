@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminDefaultCategoryController;
+use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChatbotController;
@@ -27,11 +29,23 @@ Route::post('login', [AuthController::class, 'login'])->name('login.post');
 Route::post('register', [AuthController::class, 'register'])->name('register.post');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 
-// Rute yang Memerlukan Login (Dilindungi Middleware Auth)
-Route::middleware('auth')->group(function () {
+// Rute yang Memerlukan Login (Dilindungi Middleware Auth & Status Aktif)
+Route::middleware(['auth', 'active'])->group(function () {
     // Rute Khusus Admin
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('monitoring/check-ai', [AdminDashboardController::class, 'checkAiStatus'])->name('monitoring.check-ai');
+        Route::post('monitoring/clear-log', [AdminDashboardController::class, 'clearLog'])->name('monitoring.clear-log');
+
+        // Manajemen Pengguna
+        Route::patch('users/{user}/toggle-status', [AdminUserController::class, 'toggleStatus'])->name('users.toggle-status');
+        Route::patch('users/{user}/role', [AdminUserController::class, 'updateRole'])->name('users.update-role');
+        Route::delete('users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
+
+        // Master Kategori Default
+        Route::post('default-categories', [AdminDefaultCategoryController::class, 'store'])->name('default-categories.store');
+        Route::put('default-categories/{defaultCategory}', [AdminDefaultCategoryController::class, 'update'])->name('default-categories.update');
+        Route::delete('default-categories/{defaultCategory}', [AdminDefaultCategoryController::class, 'destroy'])->name('default-categories.destroy');
     });
 
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
