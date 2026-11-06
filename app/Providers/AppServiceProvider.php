@@ -22,6 +22,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Paksa skema HTTPS jika diakses melalui reverse proxy Vercel atau environment production
+        if (config('app.env') === 'production' || 
+            (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
+            str_contains(request()->url(), 'vercel.app')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         Transaction::creating(function (Transaction $transaction): void {
             if ($transaction->user_id === null) {
                 $transaction->user_id = Auth::id();

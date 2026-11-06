@@ -15,5 +15,10 @@ foreach ($tmpDirs as $dir) {
     }
 }
 
+// Pastikan PHP mengenali koneksi HTTPS dari Vercel
+if (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+    $_SERVER['HTTPS'] = 'on';
+}
+
 // Forward Laravel requests through Vercel serverless PHP runtime
 require __DIR__ . '/../public/index.php';
